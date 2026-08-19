@@ -11,9 +11,16 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     if (typeof body.title === "string") c.title = body.title.trim();
     if (typeof body.notes === "string") c.notes = body.notes;
     if ("assigneeId" in body) c.assigneeId = body.assigneeId ?? null;
+    if (body.assignment && ["anyone", "fixed", "rotate"].includes(body.assignment)) {
+      c.assignment = body.assignment;
+      if (c.assignment !== "fixed") c.assigneeId = null;
+    }
     if (body.cadence && ["once", "daily", "weekly", "monthly"].includes(body.cadence))
       c.cadence = body.cadence;
     if (typeof body.archived === "boolean") c.archived = body.archived;
+    if ("snoozedUntil" in body) {
+      c.snoozedUntil = typeof body.snoozedUntil === "number" ? body.snoozedUntil : undefined;
+    }
   });
   return NextResponse.json(state);
 }

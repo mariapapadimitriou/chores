@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import type { Cadence, Chore, Completion, Roommate, State } from "@/lib/types";
+import type { Assignment, Cadence, Chore, Completion, Roommate, State } from "@/lib/types";
 
 type Props = { initial: State };
 
@@ -69,15 +69,19 @@ export default function Board({ initial }: Props) {
   const groupedChores = useMemo(() => {
     const g: Record<Cadence, Chore[]> = { daily: [], weekly: [], monthly: [], once: [] };
     for (const c of activeChores) g[c.cadence].push(c);
+    const now = Date.now();
+    for (const cad of Object.keys(g) as Cadence[]) {
+      g[cad].sort((a, b) => sortKey(a, lastDone.get(a.id)?.at, now) - sortKey(b, lastDone.get(b.id)?.at, now));
+    }
     return g;
-  }, [activeChores]);
+  }, [activeChores, lastDone]);
 
   async function apply<T extends State>(promise: Promise<Response>) {
     const r = await promise;
     if (r.ok) setState(await r.json());
   }
 
-  async function addChore(input: { title: string; cadence: Cadence; assigneeId: string | null; notes?: string }) {
+  async function addChore(input: { title: string; cadence: Cadence; assignment: Assignment; assigneeId: string | null; notes?: string }) {
     await apply(
       fetch("/api/chores", {
         method: "POST",
@@ -242,11 +246,11 @@ function AddChore({
 }: {
   roommates: Roommate[];
   defaultAssignee: string;
-  onAdd: (input: { title: string; cadence: Cadence; assigneeId: string | null; notes?: string }) => Promise<void>;
+  onAdd: (input: { title: string; cadence: Cadence; assignment: Assignment; assigneeId: string | null; notes?: string }) => Promise<void>;
 }) {
   const [title, setTitle] = useState("");
   const [cadence, setCadence] = useState<Cadence>("weekly");
-  const [assigneeId, setAssigneeId] = useState<string>("");
+  const [assignPick, setAssignPick] = useState<string>("");
   const [notes, setNotes] = useState("");
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -256,10 +260,12 @@ function AddChore({
     if (!title.trim() || busy) return;
     setBusy(true);
     try {
+      const { assignment, assigneeId } = decodeAssign(assignPick);
       await onAdd({
         title: title.trim(),
         cadence,
-        assigneeId: assigneeId || null,
+        assignment,
+        assigneeId,
         notes: notes.trim() || undefined,
       });
       setTitle("");
@@ -298,10 +304,11 @@ function AddChore({
             </label>
             <label className="text-sm">
               <div className="mb-1 text-xs text-ink/50">Assign to</div>
-              <select value={assigneeId} onChange={(e) => setAssigneeId(e.target.value)} className="w-full">
+              <select value={assignPick} onChange={(e) => setAssignPick(e.target.value)} className="w-full">
                 <option value="">Anyone</option>
+                <option value="rotate">🔁 Rotate between us</option>
                 {roommates.map((r) => (
-                  <option key={r.id} value={r.id}>
+                  <option key={r.id} value={"fixed:" + r.id}>
                     {r.emoji} {r.name}
                   </option>
                 ))}
@@ -346,10 +353,14 @@ function ChoreRow({
   const [title, setTitle] = useState(chore.title);
   const [notes, setNotes] = useState(chore.notes ?? "");
   const [cadence, setCadence] = useState<Cadence>(chore.cadence);
-  const [assigneeId, setAssigneeId] = useState(chore.assigneeId ?? "");
+  const [assignPick, setAssignPick] = useState<string>(() => encodeAssign(chore));
 
-  const assignee = roommates.find((r) => r.id === chore.assigneeId);
+  const fixedAssignee = chore.assignment === "fixed" ? roommates.find((r) => r.id === chore.assigneeId) : undefined;
+  const nextUpId = chore.assignment === "rotate" ? nextRotateId(chore, lastDone, roommates) : null;
+  const nextUp = nextUpId ? roommates.find((r) => r.id === nextUpId) : null;
   const lastBy = roommates.find((r) => r.id === lastDone?.byId);
+
+  const status = statusOf(chore, lastDone?.at);
 
   async function done() {
     if (!me || busy) return;
@@ -364,16 +375,35 @@ function ChoreRow({
   }
 
   async function saveEdit() {
+    const { assignment, assigneeId } = decodeAssign(assignPick);
     await onEdit({
       title: title.trim() || chore.title,
       notes: notes.trim(),
       cadence,
-      assigneeId: assigneeId || null,
+      assignment,
+      assigneeId,
     });
     setEditing(false);
   }
 
-  const fresh = isFresh(chore.cadence, lastDone?.at);
+  async function snoozeOne() {
+    const ms = cadenceMs(chore.cadence);
+    if (!ms) return;
+    await onEdit({ snoozedUntil: Date.now() + ms });
+  }
+
+  async function unsnooze() {
+    await onEdit({ snoozedUntil: undefined });
+  }
+
+  const circleClass =
+    status === "late"
+      ? "border-rose/40 bg-rose/10 text-rose"
+      : status === "due"
+      ? "border-sun/50 bg-sun/15 text-clay"
+      : status === "fresh"
+      ? "border-moss/30 bg-moss/10 text-moss"
+      : "border-ink/15 hover:border-ink/40 hover:bg-ink/5";
 
   return (
     <li className="card group rounded-2xl">
@@ -384,25 +414,42 @@ function ChoreRow({
             disabled={busy || !me}
             className={
               "mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border transition " +
-              (fresh
-                ? "border-moss/30 bg-moss/10 text-moss"
-                : "border-ink/15 hover:border-ink/40 hover:bg-ink/5")
+              circleClass
             }
             aria-label="Mark done"
-            title={fresh ? "Recently done — tap again if you did it again" : "Mark done"}
+            title="Mark done"
           >
-            <span className={"text-lg " + (justDid ? "pop" : "")}>{fresh ? "✓" : "○"}</span>
+            <span className={"text-lg " + (justDid ? "pop" : "")}>
+              {status === "fresh" ? "✓" : "○"}
+            </span>
           </button>
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2">
               <div className={"font-medium " + (justDid ? "strike" : "")}>{chore.title}</div>
               <span className="chip bg-ink/5 text-ink/60">{CADENCE_LABEL[chore.cadence]}</span>
-              {assignee && (
+              {status === "late" && (
+                <span className="chip bg-rose/15 text-rose">{overdueLabel(chore, lastDone?.at)}</span>
+              )}
+              {status === "snoozed" && (
+                <span className="chip bg-ink/5 text-ink/50">
+                  snoozed until {new Date(chore.snoozedUntil!).toLocaleDateString(undefined, { month: "short", day: "numeric" })}
+                </span>
+              )}
+              {fixedAssignee && (
                 <span
                   className="chip"
-                  style={{ background: assignee.color + "22", color: assignee.color }}
+                  style={{ background: fixedAssignee.color + "22", color: fixedAssignee.color }}
                 >
-                  {assignee.emoji} {assignee.name}
+                  {fixedAssignee.emoji} {fixedAssignee.name}
+                </span>
+              )}
+              {nextUp && (
+                <span
+                  className="chip"
+                  style={{ background: nextUp.color + "22", color: nextUp.color }}
+                  title="Rotating chore — this is whose turn it is next"
+                >
+                  next: {nextUp.emoji} {nextUp.name}
                 </span>
               )}
             </div>
@@ -433,28 +480,48 @@ function ChoreRow({
             className="w-full"
           />
           <div className="grid grid-cols-2 gap-3">
-            <select
-              value={cadence}
-              onChange={(e) => setCadence(e.target.value as Cadence)}
-              className="w-full"
-            >
-              <option value="once">One-off</option>
-              <option value="daily">Daily</option>
-              <option value="weekly">Weekly</option>
-              <option value="monthly">Monthly</option>
-            </select>
-            <select
-              value={assigneeId}
-              onChange={(e) => setAssigneeId(e.target.value)}
-              className="w-full"
-            >
-              <option value="">Anyone</option>
-              {roommates.map((r) => (
-                <option key={r.id} value={r.id}>
-                  {r.emoji} {r.name}
-                </option>
-              ))}
-            </select>
+            <label className="text-sm">
+              <div className="mb-1 text-xs text-ink/50">How often</div>
+              <select
+                value={cadence}
+                onChange={(e) => setCadence(e.target.value as Cadence)}
+                className="w-full"
+              >
+                <option value="once">One-off</option>
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+              </select>
+            </label>
+            <label className="text-sm">
+              <div className="mb-1 text-xs text-ink/50">Assign to</div>
+              <select
+                value={assignPick}
+                onChange={(e) => setAssignPick(e.target.value)}
+                className="w-full"
+              >
+                <option value="">Anyone</option>
+                <option value="rotate">🔁 Rotate between us</option>
+                {roommates.map((r) => (
+                  <option key={r.id} value={"fixed:" + r.id}>
+                    {r.emoji} {r.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <div className="flex flex-wrap items-center gap-2 text-xs text-ink/50">
+            {chore.snoozedUntil && chore.snoozedUntil > Date.now() ? (
+              <button className="btn btn-ghost text-xs" onClick={unsnooze}>
+                Un-snooze
+              </button>
+            ) : (
+              cadenceMs(chore.cadence) && (
+                <button className="btn btn-ghost text-xs" onClick={snoozeOne} title="Skip one cycle without hurting the tally">
+                  💤 Snooze one cycle
+                </button>
+              )
+            )}
           </div>
           <div className="flex flex-wrap items-center justify-between gap-2">
             <button
@@ -644,7 +711,72 @@ function isFresh(cadence: Cadence, at?: number) {
   if (cadence === "daily") return ago < day;
   if (cadence === "weekly") return ago < 7 * day;
   if (cadence === "monthly") return ago < 30 * day;
-  return ago < 2 * day; // one-off: consider fresh for 2 days after completion
+  return ago < 2 * day;
+}
+
+function cadenceMs(cadence: Cadence): number | null {
+  const day = 86_400_000;
+  if (cadence === "daily") return day;
+  if (cadence === "weekly") return 7 * day;
+  if (cadence === "monthly") return 30 * day;
+  return null;
+}
+
+function nextDueAt(chore: Chore, lastAt?: number): number | null {
+  const ms = cadenceMs(chore.cadence);
+  if (!ms) return null;
+  return (lastAt ?? chore.createdAt) + ms;
+}
+
+type Status = "fresh" | "due" | "late" | "snoozed" | "idle";
+
+function statusOf(chore: Chore, lastAt?: number): Status {
+  const now = Date.now();
+  if (chore.snoozedUntil && chore.snoozedUntil > now) return "snoozed";
+  if (isFresh(chore.cadence, lastAt)) return "fresh";
+  const due = nextDueAt(chore, lastAt);
+  if (due == null) return "idle";
+  const day = 86_400_000;
+  if (now > due) return "late";
+  if (due - now < day) return "due";
+  return "idle";
+}
+
+function overdueLabel(chore: Chore, lastAt?: number): string {
+  const due = nextDueAt(chore, lastAt);
+  if (!due) return "";
+  const late = Date.now() - due;
+  const day = 86_400_000;
+  const d = Math.floor(late / day);
+  if (d < 1) return "due today";
+  if (d < 7) return `${d}d late`;
+  const w = Math.floor(d / 7);
+  return `${w}w late`;
+}
+
+function sortKey(chore: Chore, lastAt: number | undefined, now: number): number {
+  if (chore.snoozedUntil && chore.snoozedUntil > now) return chore.snoozedUntil;
+  const due = nextDueAt(chore, lastAt);
+  return due ?? Number.MAX_SAFE_INTEGER;
+}
+
+function nextRotateId(chore: Chore, lastDone: Completion | undefined, roommates: Roommate[]): string | null {
+  if (!roommates.length) return null;
+  if (!lastDone) return roommates[0]?.id ?? null;
+  const other = roommates.find((r) => r.id !== lastDone.byId);
+  return (other ?? roommates[0]).id;
+}
+
+function encodeAssign(chore: Chore): string {
+  if (chore.assignment === "rotate") return "rotate";
+  if (chore.assignment === "fixed" && chore.assigneeId) return "fixed:" + chore.assigneeId;
+  return "";
+}
+
+function decodeAssign(v: string): { assignment: Assignment; assigneeId: string | null } {
+  if (v === "rotate") return { assignment: "rotate", assigneeId: null };
+  if (v.startsWith("fixed:")) return { assignment: "fixed", assigneeId: v.slice(6) };
+  return { assignment: "anyone", assigneeId: null };
 }
 
 function formatRel(t: number) {

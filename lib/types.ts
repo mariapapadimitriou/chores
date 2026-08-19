@@ -7,14 +7,18 @@ export type Roommate = {
 
 export type Cadence = "once" | "daily" | "weekly" | "monthly";
 
+export type Assignment = "anyone" | "fixed" | "rotate";
+
 export type Chore = {
   id: string;
   title: string;
   notes?: string;
   assigneeId?: string | null;
+  assignment?: Assignment;
   cadence: Cadence;
   createdAt: number;
   archived?: boolean;
+  snoozedUntil?: number;
 };
 
 export type Completion = {
