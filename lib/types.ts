@@ -41,6 +41,7 @@ export const initialState = (): State => ({
   roommates: [
     { id: "r1", name: "Maria", color: "#5B8CBE", emoji: "🌊" },
     { id: "r2", name: "Stais", color: "#D96E7F", emoji: "🌸" },
+    { id: "r3", name: "Costa", color: "#4E7C4A", emoji: "🌿" },
   ],
   chores: [
     { id: "c1", title: "Take out the trash", cadence: "weekly", createdAt: Date.now() },

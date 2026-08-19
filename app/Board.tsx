@@ -762,9 +762,10 @@ function sortKey(chore: Chore, lastAt: number | undefined, now: number): number 
 
 function nextRotateId(chore: Chore, lastDone: Completion | undefined, roommates: Roommate[]): string | null {
   if (!roommates.length) return null;
-  if (!lastDone) return roommates[0]?.id ?? null;
-  const other = roommates.find((r) => r.id !== lastDone.byId);
-  return (other ?? roommates[0]).id;
+  if (!lastDone) return roommates[0].id;
+  const i = roommates.findIndex((r) => r.id === lastDone.byId);
+  if (i < 0) return roommates[0].id;
+  return roommates[(i + 1) % roommates.length].id;
 }
 
 function encodeAssign(chore: Chore): string {
