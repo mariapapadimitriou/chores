@@ -50,8 +50,15 @@ export function Board({ meId, initialGroup, initialChores, initialTally }: Props
   );
 
   // Pick up housemates' changes without a reload.
+  //
+  // Only while the tab is actually being looked at. A background tab polling
+  // on a timer would keep the database's compute endpoint permanently awake —
+  // that idle traffic, not real usage, is what burns through a free tier. On
+  // returning to the tab we refresh once immediately, so it still feels live.
   useEffect(() => {
-    const t = setInterval(async () => {
+    let timer: ReturnType<typeof setInterval> | null = null;
+
+    const pull = async () => {
       try {
         const res = await fetch(base, { cache: "no-store" });
         if (!res.ok) return;
@@ -62,8 +69,32 @@ export function Board({ meId, initialGroup, initialChores, initialTally }: Props
       } catch {
         /* offline; the next tick will retry */
       }
-    }, 10_000);
-    return () => clearInterval(t);
+    };
+
+    const start = () => {
+      if (timer) return;
+      timer = setInterval(pull, 30_000);
+    };
+    const stop = () => {
+      if (timer) clearInterval(timer);
+      timer = null;
+    };
+
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") {
+        pull();
+        start();
+      } else {
+        stop();
+      }
+    };
+
+    onVisibility();
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      stop();
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
   }, [base]);
 
   const refreshTally = useCallback(async () => {
