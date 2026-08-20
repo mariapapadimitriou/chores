@@ -2,43 +2,68 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --cream: #FBF6EE;
+  --paper: #FFFDF8;
+  --ink: #1F1B16;
+}
+
 html, body {
-  background: #FBF6EE;
-  color: #1F1B16;
+  background: var(--cream);
+  color: var(--ink);
 }
 
 body {
   font-feature-settings: "ss01", "cv11";
+  -webkit-tap-highlight-color: transparent;
 }
 
+/* ---------- surfaces ---------- */
+
 .card {
-  background: #FFFDF8;
+  background: var(--paper);
   border: 1px solid rgba(31, 27, 22, 0.08);
   box-shadow: 0 1px 0 rgba(31, 27, 22, 0.03), 0 8px 24px -12px rgba(31, 27, 22, 0.08);
 }
 
+.card-flat {
+  background: var(--paper);
+  border: 1px solid rgba(31, 27, 22, 0.08);
+}
+
+/* ---------- buttons ---------- */
+
 .btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   border-radius: 9999px;
   padding: 0.5rem 1rem;
   font-weight: 500;
-  transition: transform 120ms ease, background 120ms ease;
+  white-space: nowrap;
+  transition: transform 120ms ease, background 120ms ease, opacity 120ms ease;
 }
-.btn:active { transform: scale(0.97); }
+.btn:active:not(:disabled) { transform: scale(0.97); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
 
-.btn-primary {
-  background: #1F1B16;
-  color: #FBF6EE;
-}
-.btn-primary:hover { background: #2c261f; }
+.btn-primary { background: var(--ink); color: var(--cream); }
+.btn-primary:hover:not(:disabled) { background: #2c261f; }
 
-.btn-ghost {
+.btn-ghost { background: transparent; color: var(--ink); }
+.btn-ghost:hover:not(:disabled) { background: rgba(31, 27, 22, 0.06); }
+
+.btn-outline {
   background: transparent;
-  color: #1F1B16;
+  color: var(--ink);
+  border: 1px solid rgba(31, 27, 22, 0.18);
 }
-.btn-ghost:hover { background: rgba(31, 27, 22, 0.06); }
+.btn-outline:hover:not(:disabled) { border-color: rgba(31, 27, 22, 0.45); }
+
+.btn-danger { background: transparent; color: #D96E7F; }
+.btn-danger:hover:not(:disabled) { background: rgba(217, 110, 127, 0.1); }
+
+/* ---------- chips ---------- */
 
 .chip {
   display: inline-flex;
@@ -48,24 +73,46 @@ body {
   padding: 0.125rem 0.6rem;
   font-size: 0.75rem;
   font-weight: 500;
+  white-space: nowrap;
 }
 
+/* ---------- form controls ---------- */
+
 input, select, textarea {
-  background: #FFFDF8;
+  background: var(--paper);
   border: 1px solid rgba(31, 27, 22, 0.12);
   border-radius: 12px;
   padding: 0.6rem 0.85rem;
   outline: none;
+  color: var(--ink);
   transition: border-color 120ms ease, box-shadow 120ms ease;
 }
 input:focus, select:focus, textarea:focus {
-  border-color: #1F1B16;
+  border-color: var(--ink);
   box-shadow: 0 0 0 3px rgba(31, 27, 22, 0.08);
 }
+input[type="color"] { padding: 0; }
+input::placeholder, textarea::placeholder { color: rgba(31, 27, 22, 0.35); }
+
+.field-label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.75rem;
+  color: rgba(31, 27, 22, 0.5);
+}
+
+/* Accessible focus ring for keyboard users on interactive non-inputs. */
+button:focus-visible, a:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* ---------- animation ---------- */
 
 @keyframes pop {
   0% { transform: scale(1); }
-  40% { transform: scale(1.08); }
+  40% { transform: scale(1.12); }
   100% { transform: scale(1); }
 }
 .pop { animation: pop 300ms ease; }
@@ -79,4 +126,18 @@ input:focus, select:focus, textarea:focus {
   background-repeat: no-repeat;
   background-position: 0 65%;
   animation: strike 220ms ease-out forwards;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.rise { animation: rise 200ms ease-out; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

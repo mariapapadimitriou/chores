@@ -1,15 +1,21 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Our Chores",
-  description: "A little shared chore board for the apartment.",
+  title: "Chorella",
+  description: "Shared chores for the people you live with.",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#FBF6EE",
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="min-h-screen font-sans antialiased">{children}</body>
+      <body className="min-h-screen antialiased">{children}</body>
     </html>
   );
 }
