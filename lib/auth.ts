@@ -5,11 +5,25 @@ import bcrypt from "bcryptjs";
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
 
+// Auth.js picks AUTH_SECRET up implicitly, but when it is missing the only
+// symptom is a terse "MissingSecret" buried in the runtime logs while sign-in
+// quietly fails. Resolve it here so the cause is obvious, and accept the v4
+// name too — plenty of deploy guides still say NEXTAUTH_SECRET.
+const secret = process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET;
+if (!secret && process.env.NODE_ENV === "production") {
+  console.error(
+    "[chorella] AUTH_SECRET is not set, so nobody can sign in. Add it under " +
+      "Vercel → Settings → Environment Variables with Production ticked, " +
+      "then redeploy. Generate one with: openssl rand -base64 32"
+  );
+}
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   // Credentials provider requires JWT sessions — database sessions are not
   // supported for it. We own the users table directly instead of using an
   // adapter, and Auth.js handles the session cookie, CSRF, and callbacks.
   session: { strategy: "jwt" },
+  secret,
   trustHost: true,
   pages: { signIn: "/login" },
   providers: [
