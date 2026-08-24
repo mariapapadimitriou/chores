@@ -6,6 +6,10 @@
   --cream: #FBF6EE;
   --paper: #FFFDF8;
   --ink: #1F1B16;
+
+  /* Overshoot easing — the whole "bubbly" feel comes from this one curve. */
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --settle: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 html, body {
@@ -13,22 +17,37 @@ html, body {
   color: var(--ink);
 }
 
+/* Soft blobs of warm colour behind everything, fixed so they don't scroll. */
 body {
   font-feature-settings: "ss01", "cv11";
   -webkit-tap-highlight-color: transparent;
+  background-image:
+    radial-gradient(58rem 40rem at 12% -8%, rgba(43, 98, 201, 0.07), transparent 60%),
+    radial-gradient(52rem 36rem at 92% 4%, rgba(190, 47, 79, 0.07), transparent 60%),
+    radial-gradient(46rem 34rem at 50% 106%, rgba(0, 146, 173, 0.07), transparent 60%);
+  background-attachment: fixed;
 }
 
 /* ---------- surfaces ---------- */
 
 .card {
   background: var(--paper);
-  border: 1px solid rgba(31, 27, 22, 0.08);
-  box-shadow: 0 1px 0 rgba(31, 27, 22, 0.03), 0 8px 24px -12px rgba(31, 27, 22, 0.08);
+  border: 1px solid rgba(31, 27, 22, 0.07);
+  border-radius: 28px;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.7) inset,
+    0 2px 4px -2px rgba(31, 27, 22, 0.06),
+    0 14px 30px -18px rgba(31, 27, 22, 0.16);
+  transition: transform 220ms var(--spring), box-shadow 220ms var(--settle);
 }
 
-.card-flat {
-  background: var(--paper);
-  border: 1px solid rgba(31, 27, 22, 0.08);
+/* Only rows that are actually interactive get the lift. */
+.card-lift:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.7) inset,
+    0 6px 10px -6px rgba(31, 27, 22, 0.08),
+    0 22px 40px -22px rgba(31, 27, 22, 0.22);
 }
 
 /* ---------- buttons ---------- */
@@ -39,16 +58,25 @@ body {
   justify-content: center;
   gap: 0.5rem;
   border-radius: 9999px;
-  padding: 0.5rem 1rem;
-  font-weight: 500;
+  padding: 0.55rem 1.15rem;
+  font-weight: 600;
   white-space: nowrap;
-  transition: transform 120ms ease, background 120ms ease, opacity 120ms ease;
+  transition: transform 200ms var(--spring), background 160ms ease,
+    box-shadow 200ms var(--settle), opacity 160ms ease, color 160ms ease;
 }
-.btn:active:not(:disabled) { transform: scale(0.97); }
+.btn:hover:not(:disabled) { transform: translateY(-1px) scale(1.03); }
+.btn:active:not(:disabled) { transform: scale(0.94); }
 .btn:disabled { opacity: 0.45; cursor: not-allowed; }
 
-.btn-primary { background: var(--ink); color: var(--cream); }
-.btn-primary:hover:not(:disabled) { background: #2c261f; }
+.btn-primary {
+  background: var(--ink);
+  color: var(--cream);
+  box-shadow: 0 6px 16px -8px rgba(31, 27, 22, 0.7);
+}
+.btn-primary:hover:not(:disabled) {
+  background: #2c261f;
+  box-shadow: 0 10px 22px -10px rgba(31, 27, 22, 0.75);
+}
 
 .btn-ghost { background: transparent; color: var(--ink); }
 .btn-ghost:hover:not(:disabled) { background: rgba(31, 27, 22, 0.06); }
@@ -56,12 +84,12 @@ body {
 .btn-outline {
   background: transparent;
   color: var(--ink);
-  border: 1px solid rgba(31, 27, 22, 0.18);
+  border: 1.5px solid rgba(31, 27, 22, 0.16);
 }
 .btn-outline:hover:not(:disabled) { border-color: rgba(31, 27, 22, 0.45); }
 
-.btn-danger { background: transparent; color: #D96E7F; }
-.btn-danger:hover:not(:disabled) { background: rgba(217, 110, 127, 0.1); }
+.btn-danger { background: transparent; color: #BE2F4F; }
+.btn-danger:hover:not(:disabled) { background: rgba(190, 47, 79, 0.1); }
 
 /* ---------- chips ---------- */
 
@@ -70,9 +98,9 @@ body {
   align-items: center;
   gap: 0.25rem;
   border-radius: 9999px;
-  padding: 0.125rem 0.6rem;
+  padding: 0.2rem 0.7rem;
   font-size: 0.75rem;
-  font-weight: 500;
+  font-weight: 600;
   white-space: nowrap;
 }
 
@@ -80,59 +108,84 @@ body {
 
 input, select, textarea {
   background: var(--paper);
-  border: 1px solid rgba(31, 27, 22, 0.12);
-  border-radius: 12px;
-  padding: 0.6rem 0.85rem;
+  border: 1.5px solid rgba(31, 27, 22, 0.11);
+  border-radius: 16px;
+  padding: 0.65rem 0.95rem;
   outline: none;
   color: var(--ink);
-  transition: border-color 120ms ease, box-shadow 120ms ease;
+  transition: border-color 160ms ease, box-shadow 200ms var(--settle),
+    transform 200ms var(--spring);
 }
 input:focus, select:focus, textarea:focus {
   border-color: var(--ink);
-  box-shadow: 0 0 0 3px rgba(31, 27, 22, 0.08);
+  box-shadow: 0 0 0 4px rgba(31, 27, 22, 0.07);
 }
-input[type="color"] { padding: 0; }
-input::placeholder, textarea::placeholder { color: rgba(31, 27, 22, 0.35); }
+input[type="color"] { padding: 0; border-radius: 9999px; }
+input::placeholder, textarea::placeholder { color: rgba(31, 27, 22, 0.33); }
 
 .field-label {
   display: block;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.3rem;
   font-size: 0.75rem;
+  font-weight: 600;
   color: rgba(31, 27, 22, 0.5);
 }
 
-/* Accessible focus ring for keyboard users on interactive non-inputs. */
 button:focus-visible, a:focus-visible {
-  outline: 2px solid var(--ink);
-  outline-offset: 2px;
-  border-radius: 8px;
+  outline: 2.5px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 12px;
 }
 
-/* ---------- animation ---------- */
+/* ---------- motion ---------- */
 
 @keyframes pop {
-  0% { transform: scale(1); }
-  40% { transform: scale(1.12); }
-  100% { transform: scale(1); }
+  0%   { transform: scale(1); }
+  35%  { transform: scale(1.35) rotate(-8deg); }
+  70%  { transform: scale(0.92) rotate(4deg); }
+  100% { transform: scale(1) rotate(0); }
 }
-.pop { animation: pop 300ms ease; }
+.pop { animation: pop 480ms var(--spring); }
 
 @keyframes strike {
   from { background-size: 0 2px; }
-  to { background-size: 100% 2px; }
+  to   { background-size: 100% 2px; }
 }
 .strike {
   background-image: linear-gradient(currentColor, currentColor);
   background-repeat: no-repeat;
   background-position: 0 65%;
-  animation: strike 220ms ease-out forwards;
+  animation: strike 260ms var(--settle) forwards;
 }
 
 @keyframes rise {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
-.rise { animation: rise 200ms ease-out; }
+.rise { animation: rise 320ms var(--spring); }
+
+/* Gentle idle float for the big emoji in empty states. */
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50%      { transform: translateY(-8px) rotate(2deg); }
+}
+.float { animation: float 3.6s ease-in-out infinite; }
+
+/* Confetti burst when a chore is ticked off. */
+@keyframes confetti {
+  0%   { opacity: 1; transform: translate(0, 0) scale(0.5) rotate(0deg); }
+  100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(1) rotate(var(--rot)); }
+}
+.confetti-piece {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  pointer-events: none;
+  animation: confetti 720ms var(--settle) forwards;
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -140,4 +193,6 @@ button:focus-visible, a:focus-visible {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+  .btn:hover:not(:disabled),
+  .card-lift:hover { transform: none; }
 }

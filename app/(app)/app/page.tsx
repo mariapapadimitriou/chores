@@ -18,8 +18,8 @@ export default async function MyChoresPage() {
 
   if (!groups.length) {
     return (
-      <div className="card rounded-3xl p-10 text-center">
-        <div className="text-3xl">🏠</div>
+      <div className="card p-10 text-center">
+        <div className="float text-5xl">🏠</div>
         <h1 className="mt-3 text-xl font-semibold">Welcome to Chorella</h1>
         <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-ink/55">
           Start a group for your household, or join one with a code a housemate
@@ -54,8 +54,8 @@ export default async function MyChoresPage() {
       </header>
 
       {mine.length === 0 ? (
-        <div className="card rounded-3xl p-10 text-center">
-          <div className="text-3xl">🌤️</div>
+        <div className="card p-10 text-center">
+          <div className="float text-5xl">🌤️</div>
           <p className="mt-3 font-medium">Nothing has your name on it</p>
           <p className="mt-1 text-sm text-ink/55">
             Assign a chore to yourself, or set one to rotate, and it&apos;ll turn up
@@ -109,7 +109,7 @@ function Section({
           <li key={m.chore.id}>
             <Link
               href={`/g/${m.groupId}`}
-              className="card flex items-center gap-3 rounded-2xl p-4 transition hover:border-ink/25"
+              className="card card-lift flex items-center gap-3 p-4 transition hover:border-ink/25"
             >
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">

@@ -50,7 +50,7 @@ export function OnboardingForm({ initial }: { initial: Profile }) {
         <Logo />
       </div>
 
-      <div className="card rounded-3xl p-6 sm:p-8">
+      <div className="card p-6 sm:p-8">
         <h1 className="text-2xl font-semibold tracking-tight">Make it yours</h1>
         <p className="mt-1 text-sm text-ink/55">
           Your housemates will spot you by this colour and emoji all over the board.
@@ -82,7 +82,7 @@ export function OnboardingForm({ initial }: { initial: Profile }) {
         </div>
 
         {error && (
-          <p className="mt-4 rounded-xl bg-rose/10 px-3 py-2 text-sm text-rose" role="alert">
+          <p className="mt-4 rounded-2xl bg-rose/10 px-3 py-2 text-sm text-rose" role="alert">
             {error}
           </p>
         )}

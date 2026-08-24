@@ -70,7 +70,7 @@ export default async function Landing() {
 
       <section className="mt-24 grid gap-4 sm:grid-cols-2">
         {FEATURES.map((f) => (
-          <div key={f.title} className="card rounded-3xl p-6">
+          <div key={f.title} className="card p-6">
             <div className="text-2xl">{f.emoji}</div>
             <h2 className="mt-3 font-semibold">{f.title}</h2>
             <p className="mt-1 text-sm leading-relaxed text-ink/60">{f.body}</p>

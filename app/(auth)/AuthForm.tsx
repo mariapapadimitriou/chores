@@ -70,7 +70,7 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
         <Logo />
       </Link>
 
-      <div className="card rounded-3xl p-6 sm:p-8">
+      <div className="card p-6 sm:p-8">
         <h1 className="text-2xl font-semibold tracking-tight">
           {isSignup ? "Create your account" : "Welcome back"}
         </h1>
@@ -115,9 +115,19 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
           </div>
 
           <div>
-            <label className="field-label" htmlFor="password">
-              Password
-            </label>
+            <div className="flex items-baseline justify-between">
+              <label className="field-label" htmlFor="password">
+                Password
+              </label>
+              {!isSignup && (
+                <Link
+                  href="/forgot"
+                  className="mb-1 text-xs text-ink/50 underline underline-offset-2 hover:text-ink"
+                >
+                  Forgot it?
+                </Link>
+              )}
+            </div>
             <input
               id="password"
               type="password"
@@ -132,7 +142,7 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
           </div>
 
           {error && (
-            <p className="rounded-xl bg-rose/10 px-3 py-2 text-sm text-rose" role="alert">
+            <p className="rounded-2xl bg-rose/10 px-3 py-2 text-sm text-rose" role="alert">
               {error}
             </p>
           )}

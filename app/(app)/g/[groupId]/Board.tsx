@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Avatar } from "@/components/Avatar";
+import { Confetti } from "@/components/Confetti";
 import {
   CADENCE_LABEL,
   CADENCE_ORDER,
@@ -111,7 +112,7 @@ export function Board({ meId, initialGroup, initialChores, initialTally }: Props
 
   return (
     <div>
-      <section className="card mb-6 rounded-3xl p-5">
+      <section className="card mb-6 p-5">
         <div className="mb-3 flex items-baseline justify-between">
           <div className="text-xs uppercase tracking-[0.2em] text-ink/50">This week</div>
           <div className="text-xs text-ink/40">
@@ -222,8 +223,8 @@ export function Board({ meId, initialGroup, initialChores, initialTally }: Props
         })}
 
         {!chores.length && (
-          <div className="card rounded-3xl p-10 text-center">
-            <div className="text-3xl">🧹</div>
+          <div className="card p-10 text-center">
+            <div className="float text-5xl">🧹</div>
             <p className="mt-3 font-medium">No chores yet</p>
             <p className="mt-1 text-sm text-ink/55">Add the first one above.</p>
           </div>
@@ -281,7 +282,7 @@ function AddChore({
   }
 
   return (
-    <section className="card rounded-3xl p-4 sm:p-5">
+    <section className="card p-4 sm:p-5">
       <form onSubmit={submit} className="flex flex-col gap-3">
         <div className="flex gap-2">
           <input
@@ -344,6 +345,7 @@ function ChoreRow({
 }) {
   const [busy, setBusy] = useState(false);
   const [justDid, setJustDid] = useState(false);
+  const [burst, setBurst] = useState(0);
   const [editing, setEditing] = useState(false);
 
   const [title, setTitle] = useState(chore.title);
@@ -361,6 +363,7 @@ function ChoreRow({
     if (busy) return;
     setBusy(true);
     setJustDid(true);
+    setBurst((n) => n + 1);
     try {
       await onComplete();
     } finally {
@@ -392,7 +395,7 @@ function ChoreRow({
 
   if (editing) {
     return (
-      <li className="card rounded-2xl">
+      <li className="card">
         <div className="space-y-3 p-4">
           <input
             className="w-full"
@@ -463,21 +466,24 @@ function ChoreRow({
   }
 
   return (
-    <li className="card group rounded-2xl">
+    <li className="card card-lift group">
       <div className="flex items-start gap-3 p-4">
-        <button
-          onClick={done}
-          disabled={busy}
-          aria-label={`Mark ${chore.title} as done`}
-          className={
-            "mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border transition " +
-            circle
-          }
-        >
-          <span className={"text-lg " + (justDid ? "pop" : "")}>
-            {status === "fresh" ? "✓" : "○"}
-          </span>
-        </button>
+        <span className="relative mt-0.5 shrink-0">
+          <Confetti fire={burst} />
+          <button
+            onClick={done}
+            disabled={busy}
+            aria-label={`Mark ${chore.title} as done`}
+            className={
+              "relative flex h-11 w-11 items-center justify-center rounded-full border-2 transition " +
+              circle
+            }
+          >
+            <span className={"text-lg " + (justDid ? "pop" : "")}>
+              {status === "fresh" ? "✓" : "○"}
+            </span>
+          </button>
+        </span>
 
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">

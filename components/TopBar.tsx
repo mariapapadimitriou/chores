@@ -53,7 +53,7 @@ export function TopBar({
         {open === "groups" && (
           <div
             role="menu"
-            className="card rise absolute right-0 z-50 mt-2 w-60 overflow-hidden rounded-2xl p-1"
+            className="card rise absolute right-0 z-50 mt-2 w-60 overflow-hidden !rounded-2xl p-1"
           >
             {groups.length === 0 && (
               <p className="px-3 py-3 text-sm text-ink/50">No groups yet.</p>
@@ -102,7 +102,7 @@ export function TopBar({
         {open === "me" && (
           <div
             role="menu"
-            className="card rise absolute right-0 z-50 mt-2 w-56 overflow-hidden rounded-2xl p-1"
+            className="card rise absolute right-0 z-50 mt-2 w-56 overflow-hidden !rounded-2xl p-1"
           >
             <div className="px-3 py-2">
               <div className="truncate text-sm font-medium">{me.name}</div>

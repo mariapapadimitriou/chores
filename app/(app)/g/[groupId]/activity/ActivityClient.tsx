@@ -99,14 +99,14 @@ export function ActivityClient({
   return (
     <div>
       {error && (
-        <p className="mb-4 rounded-xl bg-rose/10 px-3 py-2 text-sm text-rose" role="alert">
+        <p className="mb-4 rounded-2xl bg-rose/10 px-3 py-2 text-sm text-rose" role="alert">
           {error}
         </p>
       )}
 
       {items.length === 0 ? (
-        <div className="card rounded-3xl p-10 text-center">
-          <div className="text-3xl">📖</div>
+        <div className="card p-10 text-center">
+          <div className="float text-5xl">📖</div>
           <p className="mt-3 font-medium">Nothing here yet</p>
           <p className="mt-1 text-sm text-ink/55">
             The first ✓ on the board starts the history.
@@ -117,7 +117,7 @@ export function ActivityClient({
           {items.map((entry) => {
             const who = entry.byId ? byId.get(entry.byId) : undefined;
             return (
-              <li key={entry.id} className="card group rounded-2xl p-4">
+              <li key={entry.id} className="card group p-4">
                 <div className="flex items-start gap-3">
                   <Avatar person={who} size="sm" faded className="mt-0.5" />
                   <div className="min-w-0 flex-1">

@@ -21,8 +21,8 @@ export default async function StatsPage({ params }: { params: { groupId: string 
 
   if (total === 0) {
     return (
-      <div className="card rounded-3xl p-10 text-center">
-        <div className="text-3xl">📊</div>
+      <div className="card p-10 text-center">
+        <div className="float text-5xl">📊</div>
         <p className="mt-3 font-medium">Nothing to measure yet</p>
         <p className="mt-1 text-sm text-ink/55">
           Once chores start getting ticked off, this page fills in.
@@ -47,7 +47,7 @@ export default async function StatsPage({ params }: { params: { groupId: string 
         />
       </section>
 
-      <section className="card rounded-3xl p-5 sm:p-6">
+      <section className="card p-5 sm:p-6">
         <h2 className="font-semibold">Who did what</h2>
         <p className="mt-1 text-sm text-ink/55">
           Chores completed over the last {STATS_WEEKS} weeks.
@@ -84,7 +84,7 @@ export default async function StatsPage({ params }: { params: { groupId: string 
         </ul>
       </section>
 
-      <section className="card rounded-3xl p-5 sm:p-6">
+      <section className="card p-5 sm:p-6">
         <h2 className="font-semibold">Chores per week</h2>
         <p className="mt-1 text-sm text-ink/55">
           The whole household, from {formatDate(weeks[0].start)}.
@@ -93,7 +93,7 @@ export default async function StatsPage({ params }: { params: { groupId: string 
       </section>
 
       {topChores.length > 1 && (
-        <section className="card rounded-3xl p-5 sm:p-6">
+        <section className="card p-5 sm:p-6">
           <h2 className="font-semibold">Most-done chores</h2>
           <ul className="mt-4 divide-y divide-ink/5">
             {topChores.map((c) => (
@@ -109,7 +109,7 @@ export default async function StatsPage({ params }: { params: { groupId: string 
         </section>
       )}
 
-      <details className="card rounded-3xl p-5 sm:p-6">
+      <details className="card p-5 sm:p-6">
         <summary className="cursor-pointer font-semibold">
           Table view
           <span className="ml-2 text-sm font-normal text-ink/45">
@@ -186,7 +186,7 @@ function Tile({
   person?: Member;
 }) {
   return (
-    <div className="card rounded-3xl p-5">
+    <div className="card p-5">
       <div className="text-xs uppercase tracking-[0.2em] text-ink/45">{label}</div>
       <div className="mt-2 flex items-center gap-2">
         {person && <Avatar person={person} size="sm" />}

@@ -69,7 +69,7 @@ export function GroupsClient({ initial }: { initial: GroupSummary[] }) {
             <li key={g.id}>
               <Link
                 href={`/g/${g.id}`}
-                className="card flex items-center gap-4 rounded-2xl p-4 transition hover:border-ink/25"
+                className="card card-lift flex items-center gap-4 p-4 transition hover:border-ink/25"
               >
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
@@ -98,16 +98,16 @@ export function GroupsClient({ initial }: { initial: GroupSummary[] }) {
       )}
 
       {error && (
-        <p className="mb-4 rounded-xl bg-rose/10 px-3 py-2 text-sm text-rose" role="alert">
+        <p className="mb-4 rounded-2xl bg-rose/10 px-3 py-2 text-sm text-rose" role="alert">
           {error}
         </p>
       )}
       {notice && (
-        <p className="mb-4 rounded-xl bg-sky/10 px-3 py-2 text-sm text-sky">{notice}</p>
+        <p className="mb-4 rounded-2xl bg-sky/10 px-3 py-2 text-sm text-sky">{notice}</p>
       )}
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <form onSubmit={create} className="card rounded-3xl p-5">
+        <form onSubmit={create} className="card p-5">
           <h2 className="font-semibold">Start a group</h2>
           <p className="mt-1 text-sm text-ink/55">
             You&apos;ll get an invite code to share with everyone you live with.
@@ -129,7 +129,7 @@ export function GroupsClient({ initial }: { initial: GroupSummary[] }) {
           </button>
         </form>
 
-        <form onSubmit={join} className="card rounded-3xl p-5">
+        <form onSubmit={join} className="card p-5">
           <h2 className="font-semibold">Join a group</h2>
           <p className="mt-1 text-sm text-ink/55">
             Got a code from a housemate? Drop it in here.

@@ -74,7 +74,7 @@ export function ProfileClient({ initial }: { initial: Me }) {
         <h1 className="mt-1 text-3xl font-semibold tracking-tight">Profile</h1>
       </header>
 
-      <section className="card rounded-3xl p-5 sm:p-6">
+      <section className="card p-5 sm:p-6">
         <h2 className="font-semibold">How you appear</h2>
         <p className="mt-1 text-sm text-ink/55">
           This is what your housemates see next to every chore you finish.
@@ -105,12 +105,12 @@ export function ProfileClient({ initial }: { initial: Me }) {
         </div>
 
         {profileErr && (
-          <p className="mt-4 rounded-xl bg-rose/10 px-3 py-2 text-sm text-rose" role="alert">
+          <p className="mt-4 rounded-2xl bg-rose/10 px-3 py-2 text-sm text-rose" role="alert">
             {profileErr}
           </p>
         )}
         {profileMsg && (
-          <p className="mt-4 rounded-xl bg-moss/10 px-3 py-2 text-sm text-moss">{profileMsg}</p>
+          <p className="mt-4 rounded-2xl bg-moss/10 px-3 py-2 text-sm text-moss">{profileMsg}</p>
         )}
 
         <button
@@ -122,7 +122,7 @@ export function ProfileClient({ initial }: { initial: Me }) {
         </button>
       </section>
 
-      <section className="card mt-5 rounded-3xl p-5 sm:p-6">
+      <section className="card mt-5 p-5 sm:p-6">
         <h2 className="font-semibold">Password</h2>
         <p className="mt-1 text-sm text-ink/55">
           Signed in as <span className="text-ink">{initial.email}</span>
@@ -161,12 +161,12 @@ export function ProfileClient({ initial }: { initial: Me }) {
           </div>
 
           {pwErr && (
-            <p className="rounded-xl bg-rose/10 px-3 py-2 text-sm text-rose" role="alert">
+            <p className="rounded-2xl bg-rose/10 px-3 py-2 text-sm text-rose" role="alert">
               {pwErr}
             </p>
           )}
           {pwMsg && (
-            <p className="rounded-xl bg-moss/10 px-3 py-2 text-sm text-moss">{pwMsg}</p>
+            <p className="rounded-2xl bg-moss/10 px-3 py-2 text-sm text-moss">{pwMsg}</p>
           )}
 
           <button

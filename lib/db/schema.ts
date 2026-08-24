@@ -150,3 +150,27 @@ export type MembershipRow = typeof memberships.$inferSelect;
 export type ChoreRow = typeof chores.$inferSelect;
 export type CompletionRow = typeof completions.$inferSelect;
 export type ShoppingItemRow = typeof shoppingItems.$inferSelect;
+
+/**
+ * Single-use password reset tokens.
+ *
+ * Only a SHA-256 hash of the token is stored, so a leak of this table does not
+ * let anyone reset an account — the raw token exists only in the emailed link.
+ */
+export const passwordResetTokens = pgTable(
+  "password_reset_tokens",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    tokenHash: text("token_hash").notNull(),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+    usedAt: timestamp("used_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => ({
+    byHash: uniqueIndex("password_reset_token_hash_idx").on(t.tokenHash),
+    byUser: index("password_reset_user_idx").on(t.userId),
+  })
+);

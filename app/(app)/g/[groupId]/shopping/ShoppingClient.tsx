@@ -68,7 +68,7 @@ export function ShoppingClient({
     const done = !!item.boughtAt;
     const who = byId.get((done ? item.boughtBy : item.addedBy) ?? "");
     return (
-      <li className="card group flex items-center gap-3 rounded-2xl p-4">
+      <li className="card card-lift group flex items-center gap-3 p-4">
         <button
           onClick={() => toggle(item)}
           aria-label={done ? `Mark ${item.title} as still needed` : `Mark ${item.title} as bought`}
@@ -109,7 +109,7 @@ export function ShoppingClient({
 
   return (
     <div>
-      <section className="card rounded-3xl p-4 sm:p-5">
+      <section className="card p-4 sm:p-5">
         <form onSubmit={add} className="flex gap-2">
           <input
             className="flex-1"
@@ -126,7 +126,7 @@ export function ShoppingClient({
       </section>
 
       {error && (
-        <p className="mt-4 rounded-xl bg-rose/10 px-3 py-2 text-sm text-rose" role="alert">
+        <p className="mt-4 rounded-2xl bg-rose/10 px-3 py-2 text-sm text-rose" role="alert">
           {error}
         </p>
       )}
@@ -144,8 +144,8 @@ export function ShoppingClient({
               ))}
             </ul>
           ) : (
-            <div className="card rounded-3xl p-10 text-center">
-              <div className="text-3xl">🧺</div>
+            <div className="card p-10 text-center">
+              <div className="float text-5xl">🧺</div>
               <p className="mt-3 font-medium">The list is clear</p>
               <p className="mt-1 text-sm text-ink/55">Add something above when you notice it running low.</p>
             </div>

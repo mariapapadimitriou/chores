@@ -118,12 +118,12 @@ export function SettingsClient({ meId, initial }: { meId: string; initial: Group
   return (
     <div className="space-y-5">
       {error && (
-        <p className="rounded-xl bg-rose/10 px-3 py-2 text-sm text-rose" role="alert">
+        <p className="rounded-2xl bg-rose/10 px-3 py-2 text-sm text-rose" role="alert">
           {error}
         </p>
       )}
 
-      <section className="card rounded-3xl p-5 sm:p-6">
+      <section className="card p-5 sm:p-6">
         <h2 className="font-semibold">Invite people</h2>
         <p className="mt-1 text-sm text-ink/55">
           Anyone with this code can join the group and see the board.
@@ -147,7 +147,7 @@ export function SettingsClient({ meId, initial }: { meId: string; initial: Group
         </div>
       </section>
 
-      <section className="card rounded-3xl p-5 sm:p-6">
+      <section className="card p-5 sm:p-6">
         <h2 className="font-semibold">Members</h2>
         <p className="mt-1 text-sm text-ink/55">
           Join order sets the turn order for rotating chores.
@@ -193,7 +193,7 @@ export function SettingsClient({ meId, initial }: { meId: string; initial: Group
       </section>
 
       {isOwner && (
-        <section className="card rounded-3xl p-5 sm:p-6">
+        <section className="card p-5 sm:p-6">
           <h2 className="font-semibold">Group name</h2>
           <div className="mt-4 flex flex-wrap gap-2">
             <input
@@ -214,7 +214,7 @@ export function SettingsClient({ meId, initial }: { meId: string; initial: Group
         </section>
       )}
 
-      <section className="card rounded-3xl border-rose/20 p-5 sm:p-6">
+      <section className="card border-rose/20 p-5 sm:p-6">
         <h2 className="font-semibold">Leaving</h2>
         <p className="mt-1 text-sm text-ink/55">
           {isOwner
