@@ -44,8 +44,16 @@ DATABASE_URL='<neon connection string>' npx drizzle-kit push
 
 ## 3b. Password reset table (added later)
 
-Password reset needs one more table. Run `drizzle/0001_password_reset.sql` in
-the Neon SQL editor the same way. Without it, `/forgot` returns a 500.
+Password reset needs one more table. Without it, `/forgot` returns a 500.
+
+Run **`drizzle/0001_password_reset.single.sql`** in the Neon SQL editor.
+
+Use that file rather than `0001_password_reset.sql`: the drizzle-generated one
+holds four separate commands, and some consoles send a whole paste through the
+extended query protocol, which allows exactly one — that is the
+`cannot insert multiple commands into a prepared statement` error. The
+`.single.sql` version wraps the same DDL in one PL/pgSQL block, and is safe to
+run twice.
 
 ## 4. Redeploy
 
