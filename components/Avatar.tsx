@@ -15,7 +15,7 @@ export function Avatar({
 }: {
   person: Pick<Profile, "emoji" | "color" | "name"> | null | undefined;
   size?: keyof typeof SIZES;
-  /** Tinted background instead of solid — for use on light rows. */
+  /** Tinted background instead of solid — for quieter, secondary placements. */
   faded?: boolean;
   className?: string;
 }) {
@@ -27,7 +27,7 @@ export function Avatar({
       style={
         faded
           ? { background: color + "22", color }
-          : { background: color, color: "#FFFDF8" }
+          : { background: color, color: "#0B111C" }
       }
       title={person?.name}
       aria-hidden="true"

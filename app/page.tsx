@@ -46,7 +46,7 @@ export default async function Landing() {
       </header>
 
       <section className="mx-auto mt-20 max-w-2xl text-center sm:mt-28">
-        <div className="text-xs uppercase tracking-[0.2em] text-ink/50">
+        <div className="text-xs uppercase tracking-[0.2em] text-fg/60">
           Shared chores, settled
         </div>
         <h1 className="mt-4 text-4xl font-semibold leading-[1.1] tracking-tight sm:text-6xl">
@@ -54,7 +54,7 @@ export default async function Landing() {
           <br />
           without the arguments.
         </h1>
-        <p className="mx-auto mt-6 max-w-lg text-lg leading-relaxed text-ink/60">
+        <p className="mx-auto mt-6 max-w-lg text-lg leading-relaxed text-fg/70">
           Chorella keeps one shared board for everyone you live with — what needs
           doing, whose turn it is, and who actually did it.
         </p>
@@ -73,12 +73,12 @@ export default async function Landing() {
           <div key={f.title} className="card p-6">
             <div className="text-2xl">{f.emoji}</div>
             <h2 className="mt-3 font-semibold">{f.title}</h2>
-            <p className="mt-1 text-sm leading-relaxed text-ink/60">{f.body}</p>
+            <p className="mt-1 text-sm leading-relaxed text-fg/70">{f.body}</p>
           </div>
         ))}
       </section>
 
-      <footer className="mt-20 text-center text-xs text-ink/40">
+      <footer className="mt-20 text-center text-xs text-fg/55">
         Made with 🍵 for people who share a kitchen.
       </footer>
     </div>

@@ -45,8 +45,8 @@ export default function ForgotPage() {
           <div className="text-center">
             <div className="text-4xl">📬</div>
             <h1 className="mt-4 text-2xl font-semibold tracking-tight">Check your inbox</h1>
-            <p className="mt-2 text-sm leading-relaxed text-ink/60">
-              If <span className="font-medium text-ink">{email}</span> has a Chorella
+            <p className="mt-2 text-sm leading-relaxed text-fg/70">
+              If <span className="font-medium text-fg">{email}</span> has a Chorella
               account, a reset link is on its way. It works once and expires in an hour.
             </p>
             <Link href="/login" className="btn btn-outline mt-6">
@@ -56,7 +56,7 @@ export default function ForgotPage() {
         ) : (
           <>
             <h1 className="text-2xl font-semibold tracking-tight">Forgot your password?</h1>
-            <p className="mt-1 text-sm text-ink/55">
+            <p className="mt-1 text-sm text-fg/65">
               Pop your email in and we&apos;ll send you a link to set a new one.
             </p>
 
@@ -91,9 +91,9 @@ export default function ForgotPage() {
         )}
       </div>
 
-      <p className="mt-6 text-center text-sm text-ink/55">
+      <p className="mt-6 text-center text-sm text-fg/65">
         Remembered it?{" "}
-        <Link href="/login" className="font-medium text-ink underline underline-offset-4">
+        <Link href="/login" className="font-medium text-fg underline underline-offset-4">
           Log in
         </Link>
       </p>

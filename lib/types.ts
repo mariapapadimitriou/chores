@@ -91,19 +91,23 @@ export const STARTER_CHORES: { title: string; cadence: Cadence }[] = [
 
 /**
  * Member identity colours. These double as the categorical chart palette on the
- * stats page, so the set and its order are not arbitrary — this exact sequence
- * passes all six checks of the dataviz palette validator against the #FFFDF8
- * surface (lightness band, chroma floor, CVD separation, normal-vision floor,
- * and 3:1 contrast). Re-run that validator before changing or reordering it:
- *   node scripts/validate_palette.js "<hex,…>" --mode light --surface "#FFFDF8"
+ * stats page, so the set and its order are not arbitrary — dark mode is not a
+ * flip of the light palette, it is its own selection: this sequence was picked
+ * and validated against the dark surfaces (#151D2B card, #0B111C page) for
+ * lightness band, chroma floor, dichromat separation, and 3:1 contrast. The
+ * order matters too — cyan and indigo are the closest pair under deuteranopia,
+ * so they are kept apart in the picker and the legend.
+ *
+ * Colour is never the only channel: charts direct-label every bar and ship a
+ * table view. Re-validate before changing or reordering.
  */
 export const AVATAR_COLORS = [
-  "#D2691E", // orange
-  "#2B62C9", // blue
-  "#5A8F1A", // green
-  "#8A3FB0", // purple
-  "#0092AD", // teal
-  "#BE2F4F", // rose
+  "#1F7FBF", // blue
+  "#FF7A90", // pink
+  "#9DB83A", // lime
+  "#35B8C9", // cyan
+  "#8B93F0", // indigo
+  "#C96A35", // orange
 ];
 
 export const AVATAR_EMOJI = [

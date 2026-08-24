@@ -3,51 +3,78 @@
 @tailwind utilities;
 
 :root {
-  --cream: #FBF6EE;
-  --paper: #FFFDF8;
-  --ink: #1F1B16;
+  /* Surfaces, deepest to nearest. Everything is a cool navy rather than a
+     neutral grey — the blue cast is what stops a dark UI reading as "off". */
+  --base:   #0B111C;  /* the page itself */
+  --panel:  #151D2B;  /* cards sitting on it */
+  --raised: #1D273A;  /* things sitting on cards: inputs, wells, hovers */
+  --fg:     #E9EFFA;  /* foreground, tinted the same way as the surfaces */
 
-  /* Overshoot easing — the whole "bubbly" feel comes from this one curve. */
+  /* Hairlines. Light at low alpha, so they lift off any surface underneath
+     instead of being tied to one background colour. */
+  --line:       rgba(233, 239, 250, 0.09);
+  --line-hover: rgba(233, 239, 250, 0.2);
+
+  --accent:   #4FC3E8;
+  --accent-2: #38BDF8;
+  --accent-ink: #08131C;  /* 9:1 on both accents */
+
+  /* Overshoot easing — the springy feel carries over from the light theme. */
   --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --settle: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Tells the browser to render scrollbars, form controls and autofill dark.
+     Without it Chrome paints white autofill boxes over the inputs. */
+  color-scheme: dark;
 }
 
 html, body {
-  background: var(--cream);
-  color: var(--ink);
+  background: var(--base);
+  color: var(--fg);
 }
 
-/* Soft blobs of warm colour behind everything, fixed so they don't scroll. */
+/* Wide, low-opacity glows behind everything, fixed so they don't scroll.
+   Cool hues only — a warm one here is what makes dark themes look muddy. */
 body {
   font-feature-settings: "ss01", "cv11";
   -webkit-tap-highlight-color: transparent;
   background-image:
-    radial-gradient(58rem 40rem at 12% -8%, rgba(43, 98, 201, 0.07), transparent 60%),
-    radial-gradient(52rem 36rem at 92% 4%, rgba(190, 47, 79, 0.07), transparent 60%),
-    radial-gradient(46rem 34rem at 50% 106%, rgba(0, 146, 173, 0.07), transparent 60%);
+    radial-gradient(60rem 42rem at 8% -10%, rgba(56, 189, 248, 0.11), transparent 62%),
+    radial-gradient(54rem 38rem at 96% 2%, rgba(139, 147, 240, 0.11), transparent 62%),
+    radial-gradient(48rem 36rem at 46% 108%, rgba(53, 184, 201, 0.09), transparent 62%);
   background-attachment: fixed;
 }
+
+::selection { background: rgba(79, 195, 232, 0.28); }
 
 /* ---------- surfaces ---------- */
 
 .card {
-  background: var(--paper);
-  border: 1px solid rgba(31, 27, 22, 0.07);
-  border-radius: 28px;
+  /* A barely-there vertical lift so cards catch the "light" from above the
+     page, the way the raised surfaces in a real dashboard do. */
+  background:
+    linear-gradient(180deg, rgba(233, 239, 250, 0.035), rgba(233, 239, 250, 0) 60%),
+    var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 26px;
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.7) inset,
-    0 2px 4px -2px rgba(31, 27, 22, 0.06),
-    0 14px 30px -18px rgba(31, 27, 22, 0.16);
-  transition: transform 220ms var(--spring), box-shadow 220ms var(--settle);
+    0 1px 0 rgba(233, 239, 250, 0.06) inset,
+    0 2px 6px -3px rgba(0, 0, 0, 0.6),
+    0 18px 40px -22px rgba(0, 0, 0, 0.85);
+  transition: transform 220ms var(--spring), box-shadow 220ms var(--settle),
+    border-color 220ms ease;
 }
 
-/* Only rows that are actually interactive get the lift. */
+/* Only rows that are actually interactive get the lift, and on dark the lift
+   has to read as light rather than shadow — hence the accent bloom. */
 .card-lift:hover {
   transform: translateY(-2px);
+  border-color: var(--line-hover);
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.7) inset,
-    0 6px 10px -6px rgba(31, 27, 22, 0.08),
-    0 22px 40px -22px rgba(31, 27, 22, 0.22);
+    0 1px 0 rgba(233, 239, 250, 0.1) inset,
+    0 8px 16px -8px rgba(0, 0, 0, 0.65),
+    0 26px 50px -26px rgba(0, 0, 0, 0.9),
+    0 0 0 1px rgba(79, 195, 232, 0.09);
 }
 
 /* ---------- buttons ---------- */
@@ -62,34 +89,40 @@ body {
   font-weight: 600;
   white-space: nowrap;
   transition: transform 200ms var(--spring), background 160ms ease,
-    box-shadow 200ms var(--settle), opacity 160ms ease, color 160ms ease;
+    box-shadow 200ms var(--settle), opacity 160ms ease, color 160ms ease,
+    border-color 160ms ease;
 }
 .btn:hover:not(:disabled) { transform: translateY(-1px) scale(1.03); }
 .btn:active:not(:disabled) { transform: scale(0.94); }
-.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
+/* On a dark page the primary action is the brightest thing on screen, not the
+   darkest — inverted from the light theme, with dark text for 9:1 contrast. */
 .btn-primary {
-  background: var(--ink);
-  color: var(--cream);
-  box-shadow: 0 6px 16px -8px rgba(31, 27, 22, 0.7);
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: var(--accent-ink);
+  box-shadow: 0 6px 20px -8px rgba(79, 195, 232, 0.65);
 }
 .btn-primary:hover:not(:disabled) {
-  background: #2c261f;
-  box-shadow: 0 10px 22px -10px rgba(31, 27, 22, 0.75);
+  background: linear-gradient(135deg, #62CEEF, #4CC6FA);
+  box-shadow: 0 10px 26px -8px rgba(79, 195, 232, 0.8);
 }
 
-.btn-ghost { background: transparent; color: var(--ink); }
-.btn-ghost:hover:not(:disabled) { background: rgba(31, 27, 22, 0.06); }
+.btn-ghost { background: transparent; color: var(--fg); }
+.btn-ghost:hover:not(:disabled) { background: rgba(233, 239, 250, 0.08); }
 
 .btn-outline {
-  background: transparent;
-  color: var(--ink);
-  border: 1.5px solid rgba(31, 27, 22, 0.16);
+  background: rgba(233, 239, 250, 0.03);
+  color: var(--fg);
+  border: 1.5px solid rgba(233, 239, 250, 0.16);
 }
-.btn-outline:hover:not(:disabled) { border-color: rgba(31, 27, 22, 0.45); }
+.btn-outline:hover:not(:disabled) {
+  border-color: rgba(79, 195, 232, 0.6);
+  background: rgba(79, 195, 232, 0.08);
+}
 
-.btn-danger { background: transparent; color: #BE2F4F; }
-.btn-danger:hover:not(:disabled) { background: rgba(190, 47, 79, 0.1); }
+.btn-danger { background: transparent; color: #FF6B7D; }
+.btn-danger:hover:not(:disabled) { background: rgba(255, 107, 125, 0.14); }
 
 /* ---------- chips ---------- */
 
@@ -106,36 +139,62 @@ body {
 
 /* ---------- form controls ---------- */
 
+/* Fields are recessed rather than raised: darker than the card they sit on,
+   which is how depth reads when the light source is above. */
 input, select, textarea {
-  background: var(--paper);
-  border: 1.5px solid rgba(31, 27, 22, 0.11);
+  background: rgba(7, 12, 20, 0.55);
+  border: 1.5px solid rgba(233, 239, 250, 0.12);
   border-radius: 16px;
   padding: 0.65rem 0.95rem;
   outline: none;
-  color: var(--ink);
-  transition: border-color 160ms ease, box-shadow 200ms var(--settle),
-    transform 200ms var(--spring);
+  color: var(--fg);
+  transition: border-color 160ms ease, background 160ms ease,
+    box-shadow 200ms var(--settle), transform 200ms var(--spring);
 }
 input:focus, select:focus, textarea:focus {
-  border-color: var(--ink);
-  box-shadow: 0 0 0 4px rgba(31, 27, 22, 0.07);
+  border-color: var(--accent);
+  background: rgba(7, 12, 20, 0.75);
+  box-shadow: 0 0 0 4px rgba(79, 195, 232, 0.18);
 }
 input[type="color"] { padding: 0; border-radius: 9999px; }
-input::placeholder, textarea::placeholder { color: rgba(31, 27, 22, 0.33); }
+input::placeholder, textarea::placeholder { color: rgba(233, 239, 250, 0.35); }
+
+/* Chrome paints autofilled inputs white and ignores background-color. The
+   only reliable override is a very long inset shadow in the field colour. */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--fg);
+  -webkit-box-shadow: 0 0 0 1000px #0D1420 inset;
+  caret-color: var(--fg);
+}
 
 .field-label {
   display: block;
   margin-bottom: 0.3rem;
   font-size: 0.75rem;
   font-weight: 600;
-  color: rgba(31, 27, 22, 0.5);
+  color: rgba(233, 239, 250, 0.6);
 }
 
-button:focus-visible, a:focus-visible {
-  outline: 2.5px solid var(--ink);
+button:focus-visible, a:focus-visible, input:focus-visible {
+  outline: 2.5px solid var(--accent);
   outline-offset: 3px;
   border-radius: 12px;
 }
+
+/* ---------- scrollbars ---------- */
+
+* { scrollbar-color: rgba(233, 239, 250, 0.18) transparent; scrollbar-width: thin; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(233, 239, 250, 0.14);
+  border: 3px solid transparent;
+  border-radius: 9999px;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(233, 239, 250, 0.26); background-clip: padding-box; }
 
 /* ---------- motion ---------- */
 

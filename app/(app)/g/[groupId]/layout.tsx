@@ -24,7 +24,7 @@ export default async function GroupLayout({
   return (
     <div>
       <header className="mb-5">
-        <div className="text-xs uppercase tracking-[0.2em] text-ink/50">Group</div>
+        <div className="text-xs uppercase tracking-[0.2em] text-fg/60">Group</div>
         <h1 className="mt-1 text-3xl font-semibold tracking-tight">{name}</h1>
       </header>
       <GroupNav groupId={params.groupId} />

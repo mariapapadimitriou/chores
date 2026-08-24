@@ -55,6 +55,20 @@ extended query protocol, which allows exactly one — that is the
 `.single.sql` version wraps the same DDL in one PL/pgSQL block, and is safe to
 run twice.
 
+## 3c. Dark theme colours (optional, added later)
+
+The dark theme picks its own six member colours, validated against the dark
+cards rather than flipped from the light ones. Anyone who chose a colour before
+that is still holding a light-palette hex, which looks muddy on the dark
+surface.
+
+Run **`drizzle/0002_dark_palette.sql`** in the Neon SQL editor to move each
+person to the matching new colour. It is a single statement, safe to run twice,
+and it leaves any colour it does not recognise alone.
+
+Skipping it is fine — nothing breaks, and anyone can re-pick under *Profile*,
+where their current colour still shows as a swatch.
+
 ## 4. Redeploy
 
 Deployments → latest → **Redeploy**. The env vars are only picked up by a new

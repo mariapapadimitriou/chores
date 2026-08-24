@@ -6,7 +6,7 @@ import { formatDate } from "@/lib/chore-logic";
  * on every column. Values are also in the table view on the page, so the
  * native <title> tooltips enhance rather than gate.
  */
-const SERIES = "#D2691E";
+const SERIES = "#4FC3E8";
 
 const W = 400;
 const PLOT_TOP = 12;
@@ -44,10 +44,10 @@ export function WeeklyTrend({ weeks }: { weeks: { start: number; total: number }
                 x2={W}
                 y1={y}
                 y2={y}
-                stroke="rgba(31,27,22,0.10)"
+                stroke="rgba(233,239,250,0.10)"
                 strokeWidth="1"
               />
-              <text x="2" y={y - 4} fontSize="9" fill="rgba(31,27,22,0.40)">
+              <text x="2" y={y - 4} fontSize="9" fill="rgba(233,239,250,0.55)">
                 {t}
               </text>
             </g>
@@ -59,7 +59,7 @@ export function WeeklyTrend({ weeks }: { weeks: { start: number; total: number }
           x2={W}
           y1={AXIS_Y}
           y2={AXIS_Y}
-          stroke="rgba(31,27,22,0.18)"
+          stroke="rgba(233,239,250,0.22)"
           strokeWidth="1"
         />
 
@@ -88,7 +88,7 @@ export function WeeklyTrend({ weeks }: { weeks: { start: number; total: number }
                   fontSize="10"
                   fontWeight="600"
                   textAnchor="middle"
-                  fill="rgba(31,27,22,0.75)"
+                  fill="rgba(233,239,250,0.9)"
                 >
                   {w.total}
                 </text>
@@ -98,7 +98,7 @@ export function WeeklyTrend({ weeks }: { weeks: { start: number; total: number }
                 y={AXIS_Y + 14}
                 fontSize="9"
                 textAnchor="middle"
-                fill="rgba(31,27,22,0.45)"
+                fill="rgba(233,239,250,0.6)"
               >
                 {formatDate(w.start)}
               </text>

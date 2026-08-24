@@ -125,11 +125,11 @@ export function SettingsClient({ meId, initial }: { meId: string; initial: Group
 
       <section className="card p-5 sm:p-6">
         <h2 className="font-semibold">Invite people</h2>
-        <p className="mt-1 text-sm text-ink/55">
+        <p className="mt-1 text-sm text-fg/65">
           Anyone with this code can join the group and see the board.
         </p>
         <div className="mt-4 flex flex-wrap items-center gap-2">
-          <code className="rounded-xl border border-ink/15 bg-cream px-4 py-3 font-mono text-lg tracking-[0.3em]">
+          <code className="rounded-xl border border-fg/15 bg-base px-4 py-3 font-mono text-lg tracking-[0.3em]">
             {group.inviteCode}
           </code>
           <button onClick={copyCode} className="btn btn-outline">
@@ -149,22 +149,22 @@ export function SettingsClient({ meId, initial }: { meId: string; initial: Group
 
       <section className="card p-5 sm:p-6">
         <h2 className="font-semibold">Members</h2>
-        <p className="mt-1 text-sm text-ink/55">
+        <p className="mt-1 text-sm text-fg/65">
           Join order sets the turn order for rotating chores.
         </p>
-        <ul className="mt-4 divide-y divide-ink/5">
+        <ul className="mt-4 divide-y divide-fg/5">
           {group.members.map((m) => (
             <li key={m.id} className="flex items-center gap-3 py-3">
               <Avatar person={m} size="md" />
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="font-medium">{m.name}</span>
-                  {m.id === meId && <span className="text-xs text-ink/40">you</span>}
+                  {m.id === meId && <span className="text-xs text-fg/55">you</span>}
                   {m.role === "owner" && (
-                    <span className="chip bg-ink/5 text-ink/60">owner</span>
+                    <span className="chip bg-fg/5 text-fg/70">owner</span>
                   )}
                 </div>
-                <div className="text-xs text-ink/45">
+                <div className="text-xs text-fg/55">
                   Joined {formatDate(m.joinedAt)}
                 </div>
               </div>
@@ -216,7 +216,7 @@ export function SettingsClient({ meId, initial }: { meId: string; initial: Group
 
       <section className="card border-rose/20 p-5 sm:p-6">
         <h2 className="font-semibold">Leaving</h2>
-        <p className="mt-1 text-sm text-ink/55">
+        <p className="mt-1 text-sm text-fg/65">
           {isOwner
             ? "Hand ownership to someone else before you leave, or delete the group outright."
             : "You can rejoin later with the invite code. Your history stays put."}

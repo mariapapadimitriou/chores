@@ -74,7 +74,7 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
         <h1 className="text-2xl font-semibold tracking-tight">
           {isSignup ? "Create your account" : "Welcome back"}
         </h1>
-        <p className="mt-1 text-sm text-ink/55">
+        <p className="mt-1 text-sm text-fg/65">
           {isSignup
             ? "One account, as many households as you need."
             : "Sign in to get back to your board."}
@@ -122,7 +122,7 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
               {!isSignup && (
                 <Link
                   href="/forgot"
-                  className="mb-1 text-xs text-ink/50 underline underline-offset-2 hover:text-ink"
+                  className="mb-1 text-xs text-fg/60 underline underline-offset-2 hover:text-fg"
                 >
                   Forgot it?
                 </Link>
@@ -153,11 +153,11 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
         </form>
       </div>
 
-      <p className="mt-6 text-center text-sm text-ink/55">
+      <p className="mt-6 text-center text-sm text-fg/65">
         {isSignup ? "Already have an account? " : "New to Chorella? "}
         <Link
           href={isSignup ? "/login" : "/signup"}
-          className="font-medium text-ink underline underline-offset-4"
+          className="font-medium text-fg underline underline-offset-4"
         >
           {isSignup ? "Log in" : "Create one"}
         </Link>

@@ -52,11 +52,11 @@ export function OnboardingForm({ initial }: { initial: Profile }) {
 
       <div className="card p-6 sm:p-8">
         <h1 className="text-2xl font-semibold tracking-tight">Make it yours</h1>
-        <p className="mt-1 text-sm text-ink/55">
+        <p className="mt-1 text-sm text-fg/65">
           Your housemates will spot you by this colour and emoji all over the board.
         </p>
 
-        <div className="mt-6 flex items-center gap-4 rounded-2xl border border-ink/10 p-4">
+        <div className="mt-6 flex items-center gap-4 rounded-2xl border border-fg/10 p-4">
           <Avatar person={preview} size="lg" />
           <div className="min-w-0 flex-1">
             <label className="field-label" htmlFor="ob-name">

@@ -76,17 +76,17 @@ export function ShoppingClient({
             "flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition " +
             (done
               ? "border-moss/30 bg-moss/10 text-moss"
-              : "border-ink/15 hover:border-ink/40 hover:bg-ink/5")
+              : "border-fg/15 hover:border-fg/40 hover:bg-fg/5")
           }
         >
           {done ? "✓" : "○"}
         </button>
 
         <div className="min-w-0 flex-1">
-          <div className={done ? "text-ink/45 line-through" : "font-medium"}>
+          <div className={done ? "text-fg/55 line-through" : "font-medium"}>
             {item.title}
           </div>
-          <div className="mt-0.5 flex items-center gap-1.5 text-xs text-ink/45">
+          <div className="mt-0.5 flex items-center gap-1.5 text-xs text-fg/55">
             {who && <Avatar person={who} size="xs" faded />}
             <span>
               {done
@@ -98,7 +98,7 @@ export function ShoppingClient({
 
         <button
           onClick={() => remove(item)}
-          className="btn shrink-0 text-xs text-ink/35 transition hover:bg-rose/10 hover:text-rose focus:text-rose group-hover:text-ink/60"
+          className="btn shrink-0 text-xs text-fg/50 transition hover:bg-rose/10 hover:text-rose focus:text-rose group-hover:text-fg/70"
           aria-label={`Delete ${item.title}`}
         >
           Delete
@@ -135,7 +135,7 @@ export function ShoppingClient({
         <section>
           <div className="mb-2 flex items-baseline gap-2">
             <h2 className="text-lg font-semibold">Need to buy</h2>
-            <span className="text-xs text-ink/40">{needed.length}</span>
+            <span className="text-xs text-fg/55">{needed.length}</span>
           </div>
           {needed.length ? (
             <ul className="space-y-2">
@@ -147,7 +147,7 @@ export function ShoppingClient({
             <div className="card p-10 text-center">
               <div className="float text-5xl">🧺</div>
               <p className="mt-3 font-medium">The list is clear</p>
-              <p className="mt-1 text-sm text-ink/55">Add something above when you notice it running low.</p>
+              <p className="mt-1 text-sm text-fg/65">Add something above when you notice it running low.</p>
             </div>
           )}
         </section>
@@ -155,8 +155,8 @@ export function ShoppingClient({
         {bought.length > 0 && (
           <section>
             <div className="mb-2 flex items-baseline gap-2">
-              <h2 className="text-lg font-semibold text-ink/60">Bought</h2>
-              <span className="text-xs text-ink/40">{bought.length}</span>
+              <h2 className="text-lg font-semibold text-fg/70">Bought</h2>
+              <span className="text-xs text-fg/55">{bought.length}</span>
             </div>
             <ul className="space-y-2">
               {bought.map((i) => (

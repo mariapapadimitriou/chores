@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const COLORS = ["#D2691E", "#2B62C9", "#5A8F1A", "#8A3FB0", "#0092AD", "#BE2F4F"];
+const COLORS = ["#1F7FBF", "#FF7A90", "#9DB83A", "#35B8C9", "#8B93F0", "#C96A35"];
 const PIECES = 12;
 
 /**

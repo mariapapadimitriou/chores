@@ -59,7 +59,7 @@ export function GroupsClient({ initial }: { initial: GroupSummary[] }) {
   return (
     <div>
       <header className="mb-6">
-        <div className="text-xs uppercase tracking-[0.2em] text-ink/50">Your households</div>
+        <div className="text-xs uppercase tracking-[0.2em] text-fg/60">Your households</div>
         <h1 className="mt-1 text-3xl font-semibold tracking-tight">Groups</h1>
       </header>
 
@@ -69,13 +69,13 @@ export function GroupsClient({ initial }: { initial: GroupSummary[] }) {
             <li key={g.id}>
               <Link
                 href={`/g/${g.id}`}
-                className="card card-lift flex items-center gap-4 p-4 transition hover:border-ink/25"
+                className="card card-lift flex items-center gap-4 p-4 transition hover:border-fg/25"
               >
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="font-medium">{g.name}</span>
                     {g.role === "owner" && (
-                      <span className="chip bg-ink/5 text-ink/60">owner</span>
+                      <span className="chip bg-fg/5 text-fg/70">owner</span>
                     )}
                     {g.overdueCount > 0 && (
                       <span className="chip bg-rose/15 text-rose">
@@ -83,12 +83,12 @@ export function GroupsClient({ initial }: { initial: GroupSummary[] }) {
                       </span>
                     )}
                   </div>
-                  <div className="mt-1 text-xs text-ink/45">
+                  <div className="mt-1 text-xs text-fg/55">
                     {g.memberCount} {g.memberCount === 1 ? "person" : "people"} ·{" "}
                     {g.choreCount} {g.choreCount === 1 ? "chore" : "chores"}
                   </div>
                 </div>
-                <span className="text-ink/30" aria-hidden="true">
+                <span className="text-fg/50" aria-hidden="true">
                   →
                 </span>
               </Link>
@@ -109,7 +109,7 @@ export function GroupsClient({ initial }: { initial: GroupSummary[] }) {
       <div className="grid gap-4 sm:grid-cols-2">
         <form onSubmit={create} className="card p-5">
           <h2 className="font-semibold">Start a group</h2>
-          <p className="mt-1 text-sm text-ink/55">
+          <p className="mt-1 text-sm text-fg/65">
             You&apos;ll get an invite code to share with everyone you live with.
           </p>
           <input
@@ -131,7 +131,7 @@ export function GroupsClient({ initial }: { initial: GroupSummary[] }) {
 
         <form onSubmit={join} className="card p-5">
           <h2 className="font-semibold">Join a group</h2>
-          <p className="mt-1 text-sm text-ink/55">
+          <p className="mt-1 text-sm text-fg/65">
             Got a code from a housemate? Drop it in here.
           </p>
           <input

@@ -21,7 +21,7 @@ export default async function MyChoresPage() {
       <div className="card p-10 text-center">
         <div className="float text-5xl">🏠</div>
         <h1 className="mt-3 text-xl font-semibold">Welcome to Chorella</h1>
-        <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-ink/55">
+        <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-fg/65">
           Start a group for your household, or join one with a code a housemate
           sent you.
         </p>
@@ -45,7 +45,7 @@ export default async function MyChoresPage() {
   return (
     <div>
       <header className="mb-6">
-        <div className="text-xs uppercase tracking-[0.2em] text-ink/50">
+        <div className="text-xs uppercase tracking-[0.2em] text-fg/60">
           Across all your groups
         </div>
         <h1 className="mt-1 text-3xl font-semibold tracking-tight">
@@ -57,7 +57,7 @@ export default async function MyChoresPage() {
         <div className="card p-10 text-center">
           <div className="float text-5xl">🌤️</div>
           <p className="mt-3 font-medium">Nothing has your name on it</p>
-          <p className="mt-1 text-sm text-ink/55">
+          <p className="mt-1 text-sm text-fg/65">
             Assign a chore to yourself, or set one to rotate, and it&apos;ll turn up
             here when it&apos;s your turn.
           </p>
@@ -66,7 +66,7 @@ export default async function MyChoresPage() {
         <div className="space-y-7">
           <Section title="Overdue" tone="rose" items={late} />
           <Section title="Due today" tone="clay" items={soon} />
-          <Section title="Coming up" tone="ink" items={rest} />
+          <Section title="Coming up" tone="fg" items={rest} />
         </div>
       )}
     </div>
@@ -90,31 +90,31 @@ function Section({
   items,
 }: {
   title: string;
-  tone: "rose" | "clay" | "ink";
+  tone: "rose" | "clay" | "fg";
   items: Item[];
 }) {
   if (!items.length) return null;
   const dot =
-    tone === "rose" ? "bg-rose" : tone === "clay" ? "bg-sun" : "bg-ink/25";
+    tone === "rose" ? "bg-rose" : tone === "clay" ? "bg-sun" : "bg-fg/25";
 
   return (
     <section>
       <div className="mb-2 flex items-center gap-2">
         <span className={`h-2 w-2 rounded-full ${dot}`} aria-hidden="true" />
         <h2 className="text-lg font-semibold">{title}</h2>
-        <span className="text-xs text-ink/40">{items.length}</span>
+        <span className="text-xs text-fg/55">{items.length}</span>
       </div>
       <ul className="space-y-2">
         {items.map((m) => (
           <li key={m.chore.id}>
             <Link
               href={`/g/${m.groupId}`}
-              className="card card-lift flex items-center gap-3 p-4 transition hover:border-ink/25"
+              className="card card-lift flex items-center gap-3 p-4 transition hover:border-fg/25"
             >
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="font-medium">{m.chore.title}</span>
-                  <span className="chip bg-ink/5 text-ink/60">
+                  <span className="chip bg-fg/5 text-fg/70">
                     {CADENCE_LABEL[m.chore.cadence]}
                   </span>
                   {m.status === "late" && (
@@ -123,12 +123,12 @@ function Section({
                     </span>
                   )}
                 </div>
-                <p className="mt-1 text-xs text-ink/45">
+                <p className="mt-1 text-xs text-fg/55">
                   {m.groupName}
                   {m.chore.lastDone && ` · last done ${formatRel(m.chore.lastDone.at)}`}
                 </p>
               </div>
-              <span className="shrink-0 text-ink/30" aria-hidden="true">
+              <span className="shrink-0 text-fg/50" aria-hidden="true">
                 →
               </span>
             </Link>

@@ -16,7 +16,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
   return (
     <div className="min-h-screen">
-      <div className="sticky top-0 z-40 border-b border-ink/10 bg-cream/85 backdrop-blur">
+      <div className="sticky top-0 z-40 border-b border-fg/10 bg-base/85 backdrop-blur">
         <div className="mx-auto flex max-w-4xl items-center justify-between gap-3 px-4 py-3">
           <Link href="/app" aria-label="Chorella home">
             <Logo size={26} />

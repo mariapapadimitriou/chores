@@ -93,7 +93,7 @@ export function ActivityClient({
   }
 
   if (loading) {
-    return <p className="py-10 text-center text-sm text-ink/40">Loading…</p>;
+    return <p className="py-10 text-center text-sm text-fg/55">Loading…</p>;
   }
 
   return (
@@ -108,7 +108,7 @@ export function ActivityClient({
         <div className="card p-10 text-center">
           <div className="float text-5xl">📖</div>
           <p className="mt-3 font-medium">Nothing here yet</p>
-          <p className="mt-1 text-sm text-ink/55">
+          <p className="mt-1 text-sm text-fg/65">
             The first ✓ on the board starts the history.
           </p>
         </div>
@@ -125,14 +125,14 @@ export function ActivityClient({
                       <span className="font-medium">
                         {who ? (who.id === meId ? "You" : who.name) : "Someone"}
                       </span>
-                      <span className="text-ink/55"> did </span>
+                      <span className="text-fg/65"> did </span>
                       <span className="font-medium">{entry.choreTitle}</span>
                       {!entry.choreId && (
-                        <span className="ml-1 text-xs text-ink/35">(chore since deleted)</span>
+                        <span className="ml-1 text-xs text-fg/50">(chore since deleted)</span>
                       )}
                     </p>
                     {entry.note && (
-                      <p className="mt-1 text-sm italic text-ink/55">“{entry.note}”</p>
+                      <p className="mt-1 text-sm italic text-fg/65">“{entry.note}”</p>
                     )}
 
                     <div className="mt-2 flex flex-wrap items-center gap-1">
@@ -145,8 +145,8 @@ export function ActivityClient({
                             className={
                               "chip transition " +
                               (mine
-                                ? "bg-ink text-cream"
-                                : "bg-ink/5 text-ink/70 hover:bg-ink/10")
+                                ? "bg-accent text-base"
+                                : "bg-fg/5 text-fg/80 hover:bg-fg/10")
                             }
                             title={r.userIds
                               .map((u) => byId.get(u)?.name ?? "Someone")
@@ -166,7 +166,7 @@ export function ActivityClient({
                           <button
                             key={e}
                             onClick={() => toggleReaction(entry, e)}
-                            className="rounded-full px-1.5 py-0.5 text-sm opacity-40 grayscale transition hover:bg-ink/5 hover:opacity-100 hover:grayscale-0 focus:opacity-100 focus:grayscale-0"
+                            className="rounded-full px-1.5 py-0.5 text-sm opacity-40 grayscale transition hover:bg-fg/5 hover:opacity-100 hover:grayscale-0 focus:opacity-100 focus:grayscale-0"
                             aria-label={`React ${e}`}
                           >
                             {e}
@@ -177,10 +177,10 @@ export function ActivityClient({
                   </div>
 
                   <div className="flex shrink-0 flex-col items-end gap-1">
-                    <span className="text-xs text-ink/40">{formatRel(entry.at)}</span>
+                    <span className="text-xs text-fg/55">{formatRel(entry.at)}</span>
                     <button
                       onClick={() => undo(entry)}
-                      className="btn btn-ghost text-xs text-ink/40 transition hover:text-rose focus:text-rose group-hover:text-ink/70"
+                      className="btn btn-ghost text-xs text-fg/55 transition hover:text-rose focus:text-rose group-hover:text-fg/80"
                     >
                       Undo
                     </button>

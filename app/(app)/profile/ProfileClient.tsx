@@ -70,17 +70,17 @@ export function ProfileClient({ initial }: { initial: Me }) {
   return (
     <div>
       <header className="mb-6">
-        <div className="text-xs uppercase tracking-[0.2em] text-ink/50">Account</div>
+        <div className="text-xs uppercase tracking-[0.2em] text-fg/60">Account</div>
         <h1 className="mt-1 text-3xl font-semibold tracking-tight">Profile</h1>
       </header>
 
       <section className="card p-5 sm:p-6">
         <h2 className="font-semibold">How you appear</h2>
-        <p className="mt-1 text-sm text-ink/55">
+        <p className="mt-1 text-sm text-fg/65">
           This is what your housemates see next to every chore you finish.
         </p>
 
-        <div className="mt-5 flex items-center gap-4 rounded-2xl border border-ink/10 p-4">
+        <div className="mt-5 flex items-center gap-4 rounded-2xl border border-fg/10 p-4">
           <Avatar person={{ name, emoji, color }} size="lg" />
           <div className="min-w-0 flex-1">
             <label className="field-label" htmlFor="pf-name">
@@ -124,8 +124,8 @@ export function ProfileClient({ initial }: { initial: Me }) {
 
       <section className="card mt-5 p-5 sm:p-6">
         <h2 className="font-semibold">Password</h2>
-        <p className="mt-1 text-sm text-ink/55">
-          Signed in as <span className="text-ink">{initial.email}</span>
+        <p className="mt-1 text-sm text-fg/65">
+          Signed in as <span className="text-fg">{initial.email}</span>
         </p>
 
         <form onSubmit={changePassword} className="mt-5 grid gap-4 sm:max-w-sm">

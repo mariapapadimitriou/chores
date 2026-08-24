@@ -68,22 +68,24 @@ ${link}
 
 If this wasn't you, ignore this email — your password stays as it is.`;
 
+  // Inlined styles and a plain dark background: email clients strip <style>
+  // blocks and none of them honour CSS variables.
   const html = `<!doctype html>
-<div style="font-family:ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:#FBF6EE;padding:32px;color:#1F1B16">
-  <div style="max-width:480px;margin:0 auto;background:#FFFDF8;border:1px solid rgba(31,27,22,.08);border-radius:24px;padding:32px">
-    <div style="font-size:20px;font-weight:600;margin-bottom:4px">Chorella</div>
-    <p style="font-size:15px;line-height:1.6;color:#1F1B16b3">Hi ${escapeHtml(name)},</p>
-    <p style="font-size:15px;line-height:1.6">
+<div style="font-family:ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:#0B111C;padding:32px;color:#E9EFFA">
+  <div style="max-width:480px;margin:0 auto;background:#151D2B;border:1px solid #232E41;border-radius:24px;padding:32px">
+    <div style="font-size:20px;font-weight:600;margin-bottom:12px;color:#E9EFFA">Chorella</div>
+    <p style="font-size:15px;line-height:1.6;color:#A8B4C8;margin:0 0 12px">Hi ${escapeHtml(name)},</p>
+    <p style="font-size:15px;line-height:1.6;color:#E9EFFA;margin:0">
       Someone asked to reset the password on your Chorella account.
       Choose a new one with the button below — it works once and expires in an hour.
     </p>
     <p style="margin:28px 0">
-      <a href="${link}" style="display:inline-block;background:#1F1B16;color:#FBF6EE;text-decoration:none;padding:14px 28px;border-radius:999px;font-weight:600">Choose a new password</a>
+      <a href="${link}" style="display:inline-block;background:#4FC3E8;color:#08131C;text-decoration:none;padding:14px 28px;border-radius:999px;font-weight:600">Choose a new password</a>
     </p>
-    <p style="font-size:13px;line-height:1.6;color:#1F1B1b80">
+    <p style="font-size:13px;line-height:1.6;color:#8595AC;margin:0">
       If this wasn't you, ignore this email and your password stays as it is.
     </p>
-    <p style="font-size:12px;color:#1F1B1b66;word-break:break-all;margin-top:24px">${link}</p>
+    <p style="font-size:12px;color:#6E7E96;word-break:break-all;margin-top:24px">${link}</p>
   </div>
 </div>`;
 

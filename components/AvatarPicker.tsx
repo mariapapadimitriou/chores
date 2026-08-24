@@ -23,8 +23,8 @@ export function EmojiPicker({
             className={
               "flex h-9 items-center justify-center rounded-xl text-lg transition " +
               (value === e
-                ? "bg-ink text-cream"
-                : "border border-ink/10 hover:border-ink/40")
+                ? "bg-accent text-base"
+                : "border border-fg/10 hover:border-fg/40")
             }
           >
             {e}
@@ -61,7 +61,7 @@ export function ColorPicker({
             aria-pressed={value === c}
             className={
               "h-9 w-9 rounded-full transition " +
-              (value === c ? "ring-2 ring-ink ring-offset-2 ring-offset-paper" : "")
+              (value === c ? "ring-2 ring-accent ring-offset-2 ring-offset-panel" : "")
             }
             style={{ background: c }}
           />

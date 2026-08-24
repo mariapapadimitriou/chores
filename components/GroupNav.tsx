@@ -17,7 +17,7 @@ export function GroupNav({ groupId }: { groupId: string }) {
 
   return (
     <nav className="-mx-4 overflow-x-auto px-4">
-      <div className="flex w-max gap-1 border-b border-ink/10 pb-px">
+      <div className="flex w-max gap-1 border-b border-fg/10 pb-px">
         {TABS.map((t) => {
           const href = t.slug ? `${base}/${t.slug}` : base;
           const active = pathname === href;
@@ -29,8 +29,8 @@ export function GroupNav({ groupId }: { groupId: string }) {
               className={
                 "relative px-3 py-2 text-sm transition " +
                 (active
-                  ? "font-medium text-ink after:absolute after:inset-x-2 after:-bottom-px after:h-0.5 after:rounded-full after:bg-ink"
-                  : "text-ink/50 hover:text-ink")
+                  ? "font-medium text-fg after:absolute after:inset-x-2 after:-bottom-px after:h-0.5 after:rounded-full after:bg-accent"
+                  : "text-fg/60 hover:text-fg")
               }
             >
               {t.label}

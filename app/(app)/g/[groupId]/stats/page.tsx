@@ -24,7 +24,7 @@ export default async function StatsPage({ params }: { params: { groupId: string 
       <div className="card p-10 text-center">
         <div className="float text-5xl">📊</div>
         <p className="mt-3 font-medium">Nothing to measure yet</p>
-        <p className="mt-1 text-sm text-ink/55">
+        <p className="mt-1 text-sm text-fg/65">
           Once chores start getting ticked off, this page fills in.
         </p>
       </div>
@@ -49,7 +49,7 @@ export default async function StatsPage({ params }: { params: { groupId: string 
 
       <section className="card p-5 sm:p-6">
         <h2 className="font-semibold">Who did what</h2>
-        <p className="mt-1 text-sm text-ink/55">
+        <p className="mt-1 text-sm text-fg/65">
           Chores completed over the last {STATS_WEEKS} weeks.
         </p>
 
@@ -65,11 +65,11 @@ export default async function StatsPage({ params }: { params: { groupId: string 
                     <Avatar person={member} size="xs" faded />
                     <span className="truncate font-medium">{member.name}</span>
                   </span>
-                  <span className="shrink-0 tabular-nums text-ink/55">
+                  <span className="shrink-0 tabular-nums text-fg/65">
                     {count} · {pct}%
                   </span>
                 </div>
-                <div className="h-2.5 w-full rounded-full bg-ink/[0.06]">
+                <div className="h-2.5 w-full rounded-full bg-fg/[0.06]">
                   <div
                     className="h-2.5 rounded-full"
                     style={{
@@ -86,7 +86,7 @@ export default async function StatsPage({ params }: { params: { groupId: string 
 
       <section className="card p-5 sm:p-6">
         <h2 className="font-semibold">Chores per week</h2>
-        <p className="mt-1 text-sm text-ink/55">
+        <p className="mt-1 text-sm text-fg/65">
           The whole household, from {formatDate(weeks[0].start)}.
         </p>
         <WeeklyTrend weeks={weeks} />
@@ -95,14 +95,14 @@ export default async function StatsPage({ params }: { params: { groupId: string 
       {topChores.length > 1 && (
         <section className="card p-5 sm:p-6">
           <h2 className="font-semibold">Most-done chores</h2>
-          <ul className="mt-4 divide-y divide-ink/5">
+          <ul className="mt-4 divide-y divide-fg/5">
             {topChores.map((c) => (
               <li
                 key={c.title}
                 className="flex items-baseline justify-between gap-3 py-2.5 text-sm"
               >
                 <span className="min-w-0 truncate">{c.title}</span>
-                <span className="shrink-0 tabular-nums text-ink/50">{c.count}×</span>
+                <span className="shrink-0 tabular-nums text-fg/60">{c.count}×</span>
               </li>
             ))}
           </ul>
@@ -112,7 +112,7 @@ export default async function StatsPage({ params }: { params: { groupId: string 
       <details className="card p-5 sm:p-6">
         <summary className="cursor-pointer font-semibold">
           Table view
-          <span className="ml-2 text-sm font-normal text-ink/45">
+          <span className="ml-2 text-sm font-normal text-fg/55">
             every number on this page
           </span>
         </summary>
@@ -123,7 +123,7 @@ export default async function StatsPage({ params }: { params: { groupId: string 
               Chores completed per member over the last {STATS_WEEKS} weeks
             </caption>
             <thead>
-              <tr className="border-b border-ink/10 text-xs uppercase tracking-wider text-ink/45">
+              <tr className="border-b border-fg/10 text-xs uppercase tracking-wider text-fg/55">
                 <th scope="col" className="py-2 pr-3 font-medium">Member</th>
                 <th scope="col" className="py-2 pr-3 text-right font-medium">Chores</th>
                 <th scope="col" className="py-2 text-right font-medium">Share</th>
@@ -131,7 +131,7 @@ export default async function StatsPage({ params }: { params: { groupId: string 
             </thead>
             <tbody>
               {ranked.map(({ member, count }) => (
-                <tr key={member.id} className="border-b border-ink/5">
+                <tr key={member.id} className="border-b border-fg/5">
                   <th scope="row" className="py-2 pr-3 font-normal">
                     {member.emoji} {member.name}
                   </th>
@@ -152,14 +152,14 @@ export default async function StatsPage({ params }: { params: { groupId: string 
           <table className="mt-6 w-full min-w-[20rem] text-left text-sm">
             <caption className="sr-only">Chores completed per week</caption>
             <thead>
-              <tr className="border-b border-ink/10 text-xs uppercase tracking-wider text-ink/45">
+              <tr className="border-b border-fg/10 text-xs uppercase tracking-wider text-fg/55">
                 <th scope="col" className="py-2 pr-3 font-medium">Week of</th>
                 <th scope="col" className="py-2 text-right font-medium">Chores</th>
               </tr>
             </thead>
             <tbody>
               {weeks.map((w) => (
-                <tr key={w.start} className="border-b border-ink/5">
+                <tr key={w.start} className="border-b border-fg/5">
                   <th scope="row" className="py-2 pr-3 font-normal">
                     {formatDate(w.start)}
                   </th>
@@ -187,13 +187,13 @@ function Tile({
 }) {
   return (
     <div className="card p-5">
-      <div className="text-xs uppercase tracking-[0.2em] text-ink/45">{label}</div>
+      <div className="text-xs uppercase tracking-[0.2em] text-fg/55">{label}</div>
       <div className="mt-2 flex items-center gap-2">
         {person && <Avatar person={person} size="sm" />}
         {/* Proportional figures on the hero number, not tabular-nums. */}
         <span className="truncate text-3xl font-semibold tracking-tight">{value}</span>
       </div>
-      <div className="mt-0.5 text-sm text-ink/50">{unit}</div>
+      <div className="mt-0.5 text-sm text-fg/60">{unit}</div>
     </div>
   );
 }

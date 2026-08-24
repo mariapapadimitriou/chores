@@ -53,7 +53,7 @@ export function ResetForm() {
           <div className="text-center">
             <div className="text-4xl">🔗</div>
             <h1 className="mt-4 text-2xl font-semibold tracking-tight">Link incomplete</h1>
-            <p className="mt-2 text-sm leading-relaxed text-ink/60">
+            <p className="mt-2 text-sm leading-relaxed text-fg/70">
               This page needs the reset link from your email. Try opening it again, or
               request a fresh one.
             </p>
@@ -65,7 +65,7 @@ export function ResetForm() {
           <div className="text-center">
             <div className="text-4xl">🎉</div>
             <h1 className="mt-4 text-2xl font-semibold tracking-tight">All set</h1>
-            <p className="mt-2 text-sm text-ink/60">
+            <p className="mt-2 text-sm text-fg/70">
               Your password is updated. Taking you to the log in page…
             </p>
             <Link href="/login" className="btn btn-outline mt-6">
@@ -75,7 +75,7 @@ export function ResetForm() {
         ) : (
           <>
             <h1 className="text-2xl font-semibold tracking-tight">Choose a new password</h1>
-            <p className="mt-1 text-sm text-ink/55">
+            <p className="mt-1 text-sm text-fg/65">
               Make it something you&apos;ll remember this time.
             </p>
 

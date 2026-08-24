@@ -47,7 +47,7 @@ export function TopBar({
           aria-expanded={open === "groups"}
         >
           <span className="truncate">{active?.name ?? "My groups"}</span>
-          <span className="text-ink/40">▾</span>
+          <span className="text-fg/55">▾</span>
         </button>
 
         {open === "groups" && (
@@ -56,7 +56,7 @@ export function TopBar({
             className="card rise absolute right-0 z-50 mt-2 w-60 overflow-hidden !rounded-2xl p-1"
           >
             {groups.length === 0 && (
-              <p className="px-3 py-3 text-sm text-ink/50">No groups yet.</p>
+              <p className="px-3 py-3 text-sm text-fg/60">No groups yet.</p>
             )}
             {groups.map((g) => (
               <button
@@ -67,7 +67,7 @@ export function TopBar({
                   router.push(`/g/${g.id}`);
                 }}
                 className={
-                  "flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-sm transition hover:bg-ink/5 " +
+                  "flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-sm transition hover:bg-fg/5 " +
                   (g.id === params?.groupId ? "font-medium" : "")
                 }
               >
@@ -75,12 +75,12 @@ export function TopBar({
                 {g.id === params?.groupId && <span className="ml-auto text-moss">✓</span>}
               </button>
             ))}
-            <div className="my-1 border-t border-ink/10" />
+            <div className="my-1 border-t border-fg/10" />
             <Link
               href="/app/groups"
               role="menuitem"
               onClick={() => setOpen(null)}
-              className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm transition hover:bg-ink/5"
+              className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm transition hover:bg-fg/5"
             >
               + New or join a group
             </Link>
@@ -106,14 +106,14 @@ export function TopBar({
           >
             <div className="px-3 py-2">
               <div className="truncate text-sm font-medium">{me.name}</div>
-              <div className="text-xs text-ink/45">Signed in</div>
+              <div className="text-xs text-fg/55">Signed in</div>
             </div>
-            <div className="my-1 border-t border-ink/10" />
+            <div className="my-1 border-t border-fg/10" />
             <Link
               href="/app"
               role="menuitem"
               onClick={() => setOpen(null)}
-              className="block rounded-xl px-3 py-2 text-sm transition hover:bg-ink/5"
+              className="block rounded-xl px-3 py-2 text-sm transition hover:bg-fg/5"
             >
               My chores
             </Link>
@@ -121,7 +121,7 @@ export function TopBar({
               href="/profile"
               role="menuitem"
               onClick={() => setOpen(null)}
-              className="block rounded-xl px-3 py-2 text-sm transition hover:bg-ink/5"
+              className="block rounded-xl px-3 py-2 text-sm transition hover:bg-fg/5"
             >
               Profile &amp; password
             </Link>

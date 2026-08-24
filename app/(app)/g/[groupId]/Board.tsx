@@ -114,8 +114,8 @@ export function Board({ meId, initialGroup, initialChores, initialTally }: Props
     <div>
       <section className="card mb-6 p-5">
         <div className="mb-3 flex items-baseline justify-between">
-          <div className="text-xs uppercase tracking-[0.2em] text-ink/50">This week</div>
-          <div className="text-xs text-ink/40">
+          <div className="text-xs uppercase tracking-[0.2em] text-fg/60">This week</div>
+          <div className="text-xs text-fg/55">
             {totalThisWeek} {totalThisWeek === 1 ? "chore" : "chores"} done
           </div>
         </div>
@@ -127,15 +127,15 @@ export function Board({ meId, initialGroup, initialChores, initialTally }: Props
             return (
               <div
                 key={m.id}
-                className="flex items-center gap-3 rounded-2xl border border-ink/10 bg-white/60 px-4 py-3"
+                className="flex items-center gap-3 rounded-2xl border border-fg/10 bg-fg/[0.04] px-4 py-3"
               >
                 <Avatar person={m} size="md" />
                 <div>
                   <div className="text-sm font-medium">
                     {m.name}
-                    {m.id === meId && <span className="text-ink/40"> (you)</span>}
+                    {m.id === meId && <span className="text-fg/55"> (you)</span>}
                   </div>
-                  <div className="text-xs text-ink/50">
+                  <div className="text-xs text-fg/60">
                     {n} done{totalThisWeek > 0 && ` · ${share}%`}
                   </div>
                 </div>
@@ -146,7 +146,7 @@ export function Board({ meId, initialGroup, initialChores, initialTally }: Props
 
         {totalThisWeek > 0 && group.members.length > 1 && (
           <div
-            className="mt-4 flex h-2 overflow-hidden rounded-full bg-ink/5"
+            className="mt-4 flex h-2 overflow-hidden rounded-full bg-fg/5"
             role="img"
             aria-label={`Share of chores this week: ${group.members
               .map((m) => `${m.name} ${tally[m.id] ?? 0}`)
@@ -190,7 +190,7 @@ export function Board({ meId, initialGroup, initialChores, initialTally }: Props
             <section key={cad}>
               <div className="mb-2 flex items-baseline gap-2">
                 <h2 className="text-lg font-semibold capitalize">{CADENCE_LABEL[cad]}</h2>
-                <span className="text-xs text-ink/40">{list.length}</span>
+                <span className="text-xs text-fg/55">{list.length}</span>
               </div>
               <ul className="space-y-2">
                 {list.map((c) => (
@@ -226,7 +226,7 @@ export function Board({ meId, initialGroup, initialChores, initialTally }: Props
           <div className="card p-10 text-center">
             <div className="float text-5xl">🧹</div>
             <p className="mt-3 font-medium">No chores yet</p>
-            <p className="mt-1 text-sm text-ink/55">Add the first one above.</p>
+            <p className="mt-1 text-sm text-fg/65">Add the first one above.</p>
           </div>
         )}
       </div>
@@ -391,7 +391,7 @@ function ChoreRow({
       ? "border-sun/60 bg-sun/15 text-clay"
       : status === "fresh"
       ? "border-moss/30 bg-moss/10 text-moss"
-      : "border-ink/15 hover:border-ink/40 hover:bg-ink/5";
+      : "border-fg/15 hover:border-fg/40 hover:bg-fg/5";
 
   if (editing) {
     return (
@@ -494,7 +494,7 @@ function ChoreRow({
             )}
             {status === "due" && <span className="chip bg-sun/20 text-clay">due today</span>}
             {status === "snoozed" && chore.snoozedUntil && (
-              <span className="chip bg-ink/5 text-ink/50">
+              <span className="chip bg-fg/5 text-fg/60">
                 💤 until {formatDate(chore.snoozedUntil)}
               </span>
             )}
@@ -515,9 +515,9 @@ function ChoreRow({
             )}
           </div>
 
-          {chore.notes && <p className="mt-1 text-sm text-ink/60">{chore.notes}</p>}
+          {chore.notes && <p className="mt-1 text-sm text-fg/70">{chore.notes}</p>}
 
-          <p className="mt-1 text-xs text-ink/40">
+          <p className="mt-1 text-xs text-fg/55">
             {chore.lastDone ? (
               <>
                 Last done {formatRel(chore.lastDone.at)}
@@ -532,7 +532,7 @@ function ChoreRow({
         {/* Recessive but always present — hover-only controls are unreachable
             on touch devices. */}
         <button
-          className="btn btn-ghost shrink-0 text-xs text-ink/45 transition hover:text-ink focus:text-ink group-hover:text-ink"
+          className="btn btn-ghost shrink-0 text-xs text-fg/55 transition hover:text-fg focus:text-fg group-hover:text-fg"
           onClick={() => setEditing(true)}
         >
           Edit
